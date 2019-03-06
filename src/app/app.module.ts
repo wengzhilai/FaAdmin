@@ -14,15 +14,18 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from './Lib/ngx-translate/public_api';
+import { AppTranslationModule } from "./Translate/AppTranslationModule";
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    AppTranslationModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
+    TranslateModule,
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),

@@ -1,7 +1,7 @@
 import { Injector, ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpRequest } from '@angular/common/http';
 
 import {
@@ -53,6 +53,7 @@ import { NbRequestPasswordComponent } from './components/request-password/reques
 import { NbResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 import { deepExtend } from './helpers';
+import { TranslateModule } from '../../ngx-translate/public_api';
 
 export function nbStrategiesFactory(options: NbAuthOptions, injector: Injector): NbAuthStrategy[] {
   const strategies = [];
@@ -94,6 +95,8 @@ export function nbNoOpInterceptorFilter(req: HttpRequest<any>): boolean {
     NbButtonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
   ],
   declarations: [
     NbAuthComponent,

@@ -12,6 +12,21 @@
       "Layout":"LAYOUTS",      
       "Sidebar":"SIDEBAR"   
     },
+    "Menu":{
+      "Home":"Home",
+      "System":"System Manage",
+      "Role":"Role Manage",
+      "User":"User Manage",
+      "Model":"Model Manage"
+    },
+    "Login":{
+      "Title":"Login",
+      "LoginMsg":"Hello! Log in with your phone",
+      "LoginName":"Phone Number",
+      "LoginPwd":"Passwrod",
+      "RememberMe":"Remember me ",
+      "ForgotPwd":"Forgot Password"
+    },
     "public": {
         "Search": "Search",
         "Cancel": "Cancel",

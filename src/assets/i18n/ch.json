@@ -19,6 +19,14 @@
       "User":"用户管理",
       "Model":"模块管理"
     },
+    "Login":{
+      "Title":"登录",
+      "LoginMsg":"使用手机号码进行登录",
+      "LoginName":"手机号码",
+      "LoginPwd":"密码",
+      "RememberMe":"记住我",
+      "ForgotPwd":"记住我"
+    },
     "public": {
       "Search": "搜索",
       "Cancel": "取消",
@@ -57,6 +65,6 @@
       "NoData": "没有数据",
       "CheckNew": "检测新版本",
       "NoVersion": "获取文件路径失败，可能是本手机系统版本太底或者没有权限获取文件路径",
-      "submit": "提交"
+      "Submit": "提交"
     }
   }

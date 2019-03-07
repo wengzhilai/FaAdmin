@@ -1,13 +1,13 @@
 import { LoadingController, ToastController, Platform, AlertController } from "@ionic/angular";
 import { TranslateService } from "../Lib/ngx-translate/public_api";
-import { FormGroup } from "@angular/forms";
+import { FormGroup, FormControl } from "@angular/forms";
 import { KeyValuePair } from "../Model/KeyValuePair";
 import { ImgUrlPipe } from "../pipes/ImgUrl";
 import { Variables } from "./Variables";
 
 export class Fun {
-  
-  
+
+
     public static loadingCtrl: LoadingController;
     public static toastCtrl: ToastController;
     public static plt: Platform;
@@ -301,9 +301,11 @@ export class Fun {
                 else if (typeof (validationMessages) == "string") {
                     keyName = this.LanguageStr(validationMessages + "." + field)
                 }
+                console.log(control.errors)
 
                 //所有错误
                 for (const key in control.errors) {
+                    console.log(key)
                     //判断是否有配置
                     if (typeof (validationMessages) == "object") {
                         const messages = validationMessages[field];
@@ -340,6 +342,39 @@ export class Fun {
             errMsg += "" + this.translate.instant(field) + "：" + formErrors[field] + "、"
         }
         return { "ErrorItemArr": formErrors, "ErrorMessage": errMsg };
+    }
+
+    public static FormErrMsg(control: any) {
+        if (!control) {
+            return;
+        }
+        let defautMsg = {
+            'required': () => {
+                return this.translate.instant("public.Not_null");
+            },
+            'minlength': (ent: any) => {
+                return this.translate.instant("public.mini_string", { minNum: ent.requiredLength, currNum: ent.actualLength });
+            },
+            'maxlength': (ent: any) => {
+                return this.translate.instant("public.max_string", { minNum: ent.requiredLength, currNum: ent.actualLength });
+            }
+        };
+        let keyMesg = "";
+
+        if (!control.valid) {
+            //所有错误
+            for (const key in control.errors) {
+                //判断是否有配置
+                if (defautMsg[key] != null) {
+                    keyMesg += defautMsg[key](control.errors[key]);
+                }
+                else {
+                    keyMesg += key;
+                }
+            }
+        }
+
+        return keyMesg
     }
 
     /**
@@ -415,7 +450,7 @@ export class Fun {
         }
         return reObj;
     }
-    
+
 
 
     public static async Confirm(title, message, OkHandler, CancelHandler, OkText = "确定", ChancelText = "取消") {
@@ -506,13 +541,13 @@ export class Fun {
     }
 
 
-        /**
-     * 获取类的所有属性
-     * 
-     * @param {any} bean 传入的类
-     * @returns 返回类的所有字段的字符串，以逗号分隔
-     * @memberof CommonService
-     */
+    /**
+ * 获取类的所有属性
+ * 
+ * @param {any} bean 传入的类
+ * @returns 返回类的所有字段的字符串，以逗号分隔
+ * @memberof CommonService
+ */
     public static GetBeanNameStr(bean) {
         var tmpArr = [];
         for (var item in bean) {
@@ -524,32 +559,32 @@ export class Fun {
         return tmpArr;
     }
 
-      /**
-   * 全屏显示图片
-   * 
-   * @param {string} url 
-   * @param {string} picTitle 
-   * @returns 
-   * @memberof CommonService
-   */
-  public static FullScreenImage(url: string, picTitle: string) {
-    if (picTitle == null) {
-      picTitle = this.translate.instant("public.pic");
-    }
-    
-    if (url == null || url == '' || url == undefined || url == "img/noPic.png") {
-      return;
-    }
-    console.log(url);
-    url = this.FormartUrl(url);
-    console.log(url);
-    if (this.plt.is('ios') || this.plt.is('android')) {
-      console.log('真机');
-    //   PhotoViewer.show(url, "", { "share": false });
-    }
-    else {
+    /**
+ * 全屏显示图片
+ * 
+ * @param {string} url 
+ * @param {string} picTitle 
+ * @returns 
+ * @memberof CommonService
+ */
+    public static FullScreenImage(url: string, picTitle: string) {
+        if (picTitle == null) {
+            picTitle = this.translate.instant("public.pic");
+        }
 
-    //   this.hint('<img style="display: block; margin: 0px;" src="' + url + '"/>', this.translate.instant("public.pic"))
+        if (url == null || url == '' || url == undefined || url == "img/noPic.png") {
+            return;
+        }
+        console.log(url);
+        url = this.FormartUrl(url);
+        console.log(url);
+        if (this.plt.is('ios') || this.plt.is('android')) {
+            console.log('真机');
+            //   PhotoViewer.show(url, "", { "share": false });
+        }
+        else {
+
+            //   this.hint('<img style="display: block; margin: 0px;" src="' + url + '"/>', this.translate.instant("public.pic"))
+        }
     }
-  }
 }

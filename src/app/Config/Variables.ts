@@ -59,7 +59,7 @@ export class Variables {
   
   static LanguageArray:Array<KeyValuePair> = [
     <KeyValuePair>{Key:"ch",Value:"简体中文"},
-    <KeyValuePair>{Key:"en",Value:"English"}
+    // <KeyValuePair>{Key:"en",Value:"English"}
   ] //设置语言
 
   static AllFileMIME:Array<KeyValuePair> = [

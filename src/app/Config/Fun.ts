@@ -62,14 +62,6 @@ export class Fun {
             return reArr.join(" ");
         }
     }
-    public static LanguageStrGet(key: string | Array<string>) {
-        if (typeof key == 'string') {
-            return this.translate.get(key);
-        }
-        else if (typeof key == 'object') {
-            return this.translate.get(key);
-        }
-    }
     /**
      * 获取地址栏的参数
      * 

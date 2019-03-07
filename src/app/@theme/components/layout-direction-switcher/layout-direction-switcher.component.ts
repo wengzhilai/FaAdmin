@@ -1,6 +1,7 @@
 import { Component, OnDestroy, Input } from '@angular/core';
 import { NbLayoutDirectionService, NbLayoutDirection } from '@nebular/theme';
 import { takeWhile } from 'rxjs/operators';
+import { Fun } from '../../../Config/Fun';
 
 @Component({
   selector: 'ngx-layout-direction-switcher',
@@ -8,8 +9,8 @@ import { takeWhile } from 'rxjs/operators';
     <ngx-switcher
       [firstValue]="directions.RTL"
       [secondValue]="directions.LTR"
-      [firstValueLabel]="'RTL'"
-      [secondValueLabel]="'LTR'"
+      [firstValueLabel]="RTL"
+      [secondValueLabel]="LTR"
       [value]="currentDirection"
       (valueChange)="toggleDirection($event)"
       [vertical]="vertical"
@@ -21,7 +22,8 @@ export class LayoutDirectionSwitcherComponent implements OnDestroy {
   directions = NbLayoutDirection;
   currentDirection: NbLayoutDirection;
   alive = true;
-
+  RTL=Fun.LanguageStr("Theme.RTL")
+  LTR=Fun.LanguageStr("Theme.LTR")
   @Input() vertical: boolean = false;
 
   constructor(private directionService: NbLayoutDirectionService) {

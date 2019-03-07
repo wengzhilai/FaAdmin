@@ -1,12 +1,35 @@
 import { NbMenuItem } from '@nebular/theme';
+import { Fun } from '../Config/Fun';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'E-commerce',
+    title: Fun.LanguageStr("Menu.Home"),
     icon: 'nb-e-commerce',
     link: '/pages/dashboard',
-    home: true,
   },
+  {
+    title: Fun.LanguageStr("Menu.System"),
+    icon: 'nb-gear',
+    children: [
+      {
+        title: Fun.LanguageStr("Menu.Role"),
+        icon: 'nb-e-commerce',
+        link: '/pages/dashboard',
+      },
+      {
+        title: Fun.LanguageStr("Menu.User"),
+        icon: 'nb-e-commerce',
+        link: '/pages/dashboard',
+      },
+      {
+        title: Fun.LanguageStr("Menu.Model"),
+        icon: 'nb-e-commerce',
+        link: '/pages/dashboard',
+      }
+    ]
+  },
+
+
   {
     title: 'IoT Dashboard',
     icon: 'nb-home',

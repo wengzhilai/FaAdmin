@@ -1,6 +1,24 @@
 {
     "SystemName": "设备管理系统",
-    "welcome": "欢迎使用本应用",
+    "CreatedBy": "架构设计 ♥ by",
+    "CreatedByName": "翁志来",
+    "Theme":{
+      "Title":"皮肤",
+      "Theme_Light":"明亮",
+      "Theme_Cosmic":"宇宙",
+      "Theme_Corporate":"企业",
+      "RTL":"右菜单",
+      "LTR":"左菜单",
+      "Layout":"布局",      
+      "Sidebar":"侧边栏"     
+    },
+    "Menu":{
+      "Home":"主页",
+      "System":"系统管理",
+      "Role":"角色管理",
+      "User":"用户管理",
+      "Model":"模块管理"
+    },
     "public": {
       "Search": "搜索",
       "Cancel": "取消",
@@ -40,138 +58,5 @@
       "CheckNew": "检测新版本",
       "NoVersion": "获取文件路径失败，可能是本手机系统版本太底或者没有权限获取文件路径",
       "submit": "提交"
-    },
-    "tabs": {
-      "Index": "关系图",
-      "Contact": "通信录",
-      "MyProfile": "我的"
-    },
-    "auth-login": {
-      "Title": "登录翁家坝簇记",
-      "Sign_Title": "登录",
-      "Remember_Pwd": "记住密码",
-      "Email": "邮箱",
-      "loginName": "登录名",
-      "Change_Lang": "切换语言",
-      "password": "密码",
-      "Region": "注册",
-      "FindPwd": "忘记密码?",
-      "Login_Btn": "登录"
-    },
-    "auth-reg": {
-      "Title": "注册",
-      "LoginNamePlaceholder": "请输入手机号码",
-      "CodePlaceholder": "短信验证码",
-      "PasswordPlaceholder": "密码由6-20位数字字母构成",
-      "SendCode": "发送验证码",
-      "submit": "提交",
-      "AccountMsg":"账号信息",
-      "BaseMsg":"基础资料",
-      "BirthdayMsg":"出生信息",
-      "UserName":"用户姓名",
-      "btnNext":"下一步"
-    },
-    "auth-find-pwd": {
-      "Title": "找回密码",
-      "LoginName": "请输入手机号码",
-      "VerifyCode": "短信验证码",
-      "NewPwd": "密码由6-20位数字字母构成",
-      "submit": "提交",
-      "SendCode": "发送验证码"
-    },
-    "user-edit": {
-      "Title": "修改用户",
-      "baseInfo": "基础资料",
-      "NAME": "姓名",
-      "LOGIN_NAME": "联系电话",
-      "ALIAS": "字号/小名",
-      "SEX": "性别",
-      "EDUCATION": "教育背影",
-      "INDUSTRY": "从事行业",
-      "Married": "是否结婚",
-      "LEVEL_ID": "排行",
-      "BIRTHDAY_PLACE": "出生地点",
-      "REMARK": "个人概述",
-      "BirthdayInfo": "出生信息",
-      "DiedInfo": "逝世信息",
-      "DIED_PLACE": "逝世地点",
-      "IS_LIVE": "是否健在",
-      "IS_Marryed": "是否结婚",
-      "YEARS_TYPE": "年份类型",
-      "lunlar": "阴历",
-      "solar": "阳历",
-      "CountryType":"国号",
-      "JianZhi":"甲子",
-      "YearIndex":"年号",
-      "TimeIndex":"时辰"
-    },
-    "setting": {
-      "Title": "设置",
-      "setting": "功能设置",
-      "CheckNew": "检测新版本",
-      "BaseUserInfo": "用户基本信息",
-      "UserName": "姓名",
-      "Email": "邮件",
-      "FamilyPhone": "联系电话",
-      "api": "接口地址",
-      "BaseProgramm": "程序基本信息",
-      "AppName": "应用名称",
-      "PackageName": "包名称",
-      "VersionCode": "版本号",
-      "VersionNumber": "版本代码",
-      "ExitLogin": "退出登录",
-      "ExitConfirmIng": "退出确认",
-      "ExitConfirm": "确定要退出吗？"
-    },
-    "user-profile": {
-      "Title": "查看个人信息",
-      "setting": "功能设置",
-      "api": "接口地址",
-      "EditPwd":"修改密码",
-      "ExitLogin": "退出登录",
-      "imgUrl": "图片地址"
-    },
-    "user-look": {
-      "Title": "查看个人信息",
-      "BaseUserInfo": "用户基本信息",
-      "NAME": "姓名",
-      "ALIAS": "字号/小名",
-      "SEX": "性别",
-      "LOGIN_NAME":"联系电话",
-      "LEVEL_ID": "排行",
-      "BIRTHDAY_PLACE": "出生地点",
-      "REMARK": "个人概述",
-      "BirthdayInfo": "出生信息",
-      "DiedInfo": "逝世信息",
-      "DIED_PLACE": "逝世地点",
-      "BirthdaylunlarDate": "出生阴历",
-      "BirthdaysolarDate": "出生阳历",
-      "DiedlunlarDate": "逝世阴历",
-      "DiedsolarDate": "逝世阳历",
-      "FatherName":"父亲",
-      "CoupleName":"内人",
-      "EDUCATION":"教育背影",
-      "INDUSTRY":"行业"
-    },
-    "user-look-page":{
-      "Title": "查看个人信息"
-    }, 
-    "user-edit-pwd": {
-      "Title": "修改密码",
-      "OldPwd": "原密码",
-      "NewPwd": "新密码",
-      "ReNewPwd": "重复新密码",
-      "DifPwd": "两次密码不一样"
-    }, 
-    "message-list": {
-      "Title": "消息列表",
-      "TITLE": "标题",
-      "CONTENT": "内容"
-    },
-    "family-contact":{
-      "Title": "通信录"
-    },
-    "family-relative":{
-      "Title": "关系图"
     }
   }

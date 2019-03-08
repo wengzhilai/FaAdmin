@@ -70,6 +70,7 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { TranslateModule } from '../Lib/ngx-translate/public_api';
+import { PipesModule } from '../pipes/pipes.module';
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
@@ -158,7 +159,12 @@ const NB_THEME_PROVIDERS = [
 ];
 
 @NgModule({
-  imports: [TranslateModule,...BASE_MODULES, ...NB_MODULES],
+  imports: [
+    TranslateModule,
+    PipesModule,
+    ...BASE_MODULES, 
+    ...NB_MODULES
+  ],
   exports: [...BASE_MODULES, ...NB_MODULES, ...COMPONENTS, ...PIPES],
   declarations: [...COMPONENTS, ...PIPES],
   entryComponents: [...ENTRY_COMPONENTS],

@@ -3,16 +3,15 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NB_AUTH_OPTIONS, NbAuthSocialLink } from '../../auth.options';
-import { getDeepFromObject } from '../../helpers';
-
-import { NbAuthService } from '../../services/auth.service';
-import { NbAuthResult } from '../../services/auth-result';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Fun } from '../../../../../Config/Fun';
 import { TranslateService } from '../../../../ngx-translate/public_api';
+import { HttpHelper } from '../../../../../Helper/HttpHelper';
+import { DtoResultObj } from '../../../../../Model/DtoRec/DtoResult';
+import { UserDto } from '../../../../../Model/DtoRec/UserDto';
+import { GlobalHelper } from '../../../../../Helper/GlobalHelper';
 
 @Component({
   selector: 'nb-login',
@@ -29,12 +28,13 @@ export class NbLoginComponent implements OnInit {
     protected router: Router,
     public translate: TranslateService,
     private formBuilder: FormBuilder,
+    public httpHelper: HttpHelper,
   ) {
 
   }
   ngOnInit() {
     this.userForm = this.formBuilder.group({
-      loginName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
+      loginName: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
       password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]]
     });
 
@@ -44,18 +44,25 @@ export class NbLoginComponent implements OnInit {
 
     if (this.userForm.invalid) {
       let formErrors = Fun.FormValidMsg(this.userForm, this.i18n);
-      console.log(this.userForm);
-      console.log(this.userForm.get("loginName"));
-      console.log();
-      
-      console.log(formErrors);
-      // Fun.Hint(formErrors.ErrorMessage, this.translate.instant("public.Invalid_input"))
+      Fun.Hint(formErrors.ErrorMessage, this.translate.instant("public.Invalid_input"))
       return;
     }
-
-    console.log(this.userForm.get("loginName"));
+    //认证登录
+    await Fun.ShowLoading();
+    this.httpHelper.Post("Auth/UserLogin", this.userForm.value).then((result: DtoResultObj<UserDto>) => {
+      Fun.HideLoading();
+      if (result.IsSuccess) {
+        GlobalHelper.SetToken(result.Code)
+        GlobalHelper.SetUserObject(result.Data)
+        this.router.navigateByUrl("pages");
+      }
+      else {
+        Fun.Hint(result.Msg);
+      }
+      console.log(result);
+    })
   }
-  GetErrMsg(obj:any){
+  GetErrMsg(obj: any) {
     return Fun.FormErrMsg(obj)
   }
 }

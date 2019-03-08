@@ -10,14 +10,17 @@
       "RTL":"右菜单",
       "LTR":"左菜单",
       "Layout":"布局",      
-      "Sidebar":"侧边栏"     
+      "Sidebar":"侧边栏",
+      "Profile":"个人中心",
+      "LoginOut":"退出登录"
     },
     "Menu":{
       "Home":"主页",
       "System":"系统管理",
       "Role":"角色管理",
       "User":"用户管理",
-      "Model":"模块管理"
+      "Model":"模块管理",
+      "Query":"查询管理"
     },
     "Login":{
       "Title":"登录",

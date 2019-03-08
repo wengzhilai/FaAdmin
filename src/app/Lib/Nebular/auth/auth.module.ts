@@ -54,6 +54,7 @@ import { NbResetPasswordComponent } from './components/reset-password/reset-pass
 
 import { deepExtend } from './helpers';
 import { TranslateModule } from '../../ngx-translate/public_api';
+import { IonicModule } from '@ionic/angular';
 
 export function nbStrategiesFactory(options: NbAuthOptions, injector: Injector): NbAuthStrategy[] {
   const strategies = [];
@@ -86,6 +87,7 @@ export function nbNoOpInterceptorFilter(req: HttpRequest<any>): boolean {
 
 @NgModule({
   imports: [
+    IonicModule,
     CommonModule,
     NbLayoutModule,
     NbCardModule,

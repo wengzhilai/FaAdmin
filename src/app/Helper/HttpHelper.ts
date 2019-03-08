@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Variables } from "../Config/Variables";
 import { GlobalHelper } from "./GlobalHelper";
 import { DtoResult, DtoResultObj } from "../Model/DtoRec/DtoResult";
+import { Fun } from "../Config/Fun";
 @Injectable({
   providedIn: 'root'
 })
@@ -75,6 +76,46 @@ export class HttpHelper {
           resolve(errObj);
         });
     });
+  }
+
+  PostToObservable(apiName, postBean: any, callback = null) {
+    console.group("开始请求[" + apiName + "]参数：");
+    console.time("Post时间");
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+
+    var token= GlobalHelper.GetToken()
+    if (token.length > 0) {
+        httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+          })
+        };
+    }
+    console.log(httpOptions)
+    console.log("请求参数")
+    console.log(postBean)
+
+    return this.http.post(Variables.Api + apiName, postBean, httpOptions).pipe((res:any) => {
+      console.log("返回结果：");
+      let response: any = res.json();
+      Fun.PlatformsExists("core") ? console.log(response) : console.log(JSON.stringify(response));
+      if (response.IsSuccess) {
+        if (callback) {
+          callback(response);
+        }
+      }
+      else {
+        Fun.PlatformsExists("core") ? console.warn(response.Msg) : console.warn(JSON.stringify(response.Msg));
+      }
+      console.timeEnd("Post时间");
+      console.groupEnd();
+      return response;
+    })
   }
 
 }

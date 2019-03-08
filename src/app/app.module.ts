@@ -16,6 +16,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from './Lib/ngx-translate/public_api';
 import { AppTranslationModule } from "./Translate/AppTranslationModule";
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,6 +30,7 @@ import { AppTranslationModule } from "./Translate/AppTranslationModule";
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
+    IonicModule.forRoot(),
   ],
   bootstrap: [AppComponent],
   providers: [

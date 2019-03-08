@@ -13,18 +13,23 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: Fun.LanguageStr("Menu.Role"),
-        icon: 'nb-e-commerce',
-        link: '/pages/dashboard',
+        icon: 'ion-person-stalker',
+        link: '/pages/role/list',
       },
       {
         title: Fun.LanguageStr("Menu.User"),
-        icon: 'nb-e-commerce',
-        link: '/pages/dashboard',
+        icon: 'ion-person',
+        link: '/pages/user/list',
       },
       {
         title: Fun.LanguageStr("Menu.Model"),
-        icon: 'nb-e-commerce',
-        link: '/pages/dashboard',
+        icon: 'ion-android-archive',
+        link: '/pages/module/list',
+      },
+      {
+        title: Fun.LanguageStr("Menu.Query"),
+        icon: 'ion-android-archive',
+        link: '/pages/query/list',
       }
     ]
   },

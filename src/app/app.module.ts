@@ -17,8 +17,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from './Lib/ngx-translate/public_api';
 import { AppTranslationModule } from "./Translate/AppTranslationModule";
 import { IonicModule } from '@ionic/angular';
+import { EditModelComponent } from './components/edit-model/edit-model.component';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
+  entryComponents:[],
   declarations: [AppComponent],
   imports: [
     AppTranslationModule,
@@ -27,6 +30,7 @@ import { IonicModule } from '@ionic/angular';
     HttpClientModule,
     AppRoutingModule,
     TranslateModule,
+    ComponentsModule,
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),

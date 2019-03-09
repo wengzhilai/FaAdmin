@@ -18,8 +18,8 @@ export class Variables {
   /**
    * 接口地址
    */
-  // static Api:string = 'http://127.0.0.1:5000/Api/';
-  static Api:string = 'http://dotnetapi.wjbjp.cn/Api/';
+  static Api:string = 'http://127.0.0.1:5000/Api/';
+  // static Api:string = 'http://dotnetapi.wjbjp.cn/Api/';
 
   /**
    * 图片地址

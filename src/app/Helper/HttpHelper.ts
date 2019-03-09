@@ -4,6 +4,7 @@ import { Variables } from "../Config/Variables";
 import { GlobalHelper } from "./GlobalHelper";
 import { DtoResult, DtoResultObj } from "../Model/DtoRec/DtoResult";
 import { Fun } from "../Config/Fun";
+import { Observable } from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
@@ -22,14 +23,14 @@ export class HttpHelper {
       })
     };
 
-    var token= GlobalHelper.GetToken()
+    var token = GlobalHelper.GetToken()
     if (token.length > 0) {
-        httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token,
-          })
-        };
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        })
+      };
     }
     console.log(httpOptions)
     console.log("请求参数")
@@ -47,7 +48,7 @@ export class HttpHelper {
           resolve(result);
           // return result;
 
-        }, (error:HttpErrorResponse) => {
+        }, (error: HttpErrorResponse) => {
           console.error('请求失败:');
           console.error("接中地址：" + Variables.Api + apiName)
           console.error("参数：")
@@ -58,11 +59,11 @@ export class HttpHelper {
           console.groupEnd();
           var errObj: DtoResultObj<any> = new DtoResultObj<any>();
           errObj.IsSuccess = false;
-          
-          if(error.status==401){
+
+          if (error.status == 401) {
             errObj.Msg = "登录超时,请重新登录";
 
-          }else{
+          } else {
             errObj.Msg = error.error.Msg;
           }
           resolve(errObj);
@@ -87,35 +88,40 @@ export class HttpHelper {
       })
     };
 
-    var token= GlobalHelper.GetToken()
+    var token = GlobalHelper.GetToken()
     if (token.length > 0) {
-        httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token,
-          })
-        };
+      httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        })
+      };
     }
     console.log(httpOptions)
     console.log("请求参数")
     console.log(postBean)
 
-    return this.http.post(Variables.Api + apiName, postBean, httpOptions).pipe((res:any) => {
-      console.log("返回结果：");
-      let response: any = res.json();
-      Fun.PlatformsExists("core") ? console.log(response) : console.log(JSON.stringify(response));
-      if (response.IsSuccess) {
-        if (callback) {
-          callback(response);
+    return Observable.create((observer) => {
+      this.http.post(Variables.Api + apiName, postBean, httpOptions).subscribe({
+        next: (res:DtoResultObj<any>) => {
+          console.log("返回结果：");
+          console.log(res)
+          console.timeEnd("Post时间");
+          console.groupEnd();
+          observer.next(res);
+          observer.complete();
+        },
+        error: err => {
+          console.error('请求失败');
+          console.error(err);
+          var errObj: DtoResultObj<any> = new DtoResultObj<any>();
+          errObj.IsSuccess = false;
+          errObj.Msg = err.message;
+          observer.next(errObj);
+          observer.complete();
         }
-      }
-      else {
-        Fun.PlatformsExists("core") ? console.warn(response.Msg) : console.warn(JSON.stringify(response.Msg));
-      }
-      console.timeEnd("Post时间");
-      console.groupEnd();
-      return response;
-    })
+      });
+    });
   }
 
 }

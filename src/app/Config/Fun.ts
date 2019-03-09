@@ -1,9 +1,10 @@
-import { LoadingController, ToastController, Platform, AlertController } from "@ionic/angular";
+import { LoadingController, ToastController, Platform, AlertController, ModalController } from "@ionic/angular";
 import { TranslateService } from "../Lib/ngx-translate/public_api";
 import { FormGroup, FormControl } from "@angular/forms";
 import { KeyValuePair } from "../Model/KeyValuePair";
 import { ImgUrlPipe } from "../pipes/ImgUrl";
 import { Variables } from "./Variables";
+import { EditModelComponent } from "../components/edit-model/edit-model.component";
 
 export class Fun {
 
@@ -14,18 +15,22 @@ export class Fun {
     public static alertCtrl: AlertController;
     public static translate: TranslateService;
     public static loader: any;
+    public static modalCtrl: ModalController;
 
 
     public static Init(_loadingCtrl: LoadingController,
         _toastCtrl: ToastController,
         _plt: Platform,
         _alertCtrl: AlertController,
-        _translate: TranslateService) {
+        _translate: TranslateService,
+        _modalCtrl: ModalController,
+    ) {
         this.loadingCtrl = _loadingCtrl;
         this.toastCtrl = _toastCtrl;
         this.plt = _plt;
         this.alertCtrl = _alertCtrl;
         this.translate = _translate;
+        this.modalCtrl = _modalCtrl;
     }
 
     /**
@@ -560,13 +565,13 @@ export class Fun {
     }
 
     /**
- * 全屏显示图片
- * 
- * @param {string} url 
- * @param {string} picTitle 
- * @returns 
- * @memberof CommonService
- */
+     * 全屏显示图片
+     * 
+     * @param {string} url 
+     * @param {string} picTitle 
+     * @returns 
+     * @memberof CommonService
+     */
     public static FullScreenImage(url: string, picTitle: string) {
         if (picTitle == null) {
             picTitle = this.translate.instant("public.pic");
@@ -586,5 +591,21 @@ export class Fun {
 
             //   this.hint('<img style="display: block; margin: 0px;" src="' + url + '"/>', this.translate.instant("public.pic"))
         }
+    }
+
+    /**
+     * 显示弹出框
+     * @param callBack 传入的参数，可以包括回调方法
+     */
+    static async ShowModal(callBack: any) {
+        console.log(1);
+        let openObj = await this.modalCtrl.create({
+            component: EditModelComponent,
+            componentProps: callBack
+        });
+        console.log(2);
+        await openObj.present();
+        console.log(3);
+
     }
 }

@@ -5,7 +5,7 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from './@core/utils/analytics.service';
-import { Platform, LoadingController, ToastController, AlertController } from '@ionic/angular';
+import { Platform, LoadingController, ToastController, AlertController, ModalController } from '@ionic/angular';
 import { TranslateService } from './Lib/ngx-translate/public_api';
 import { Fun } from './Config/Fun';
 
@@ -21,9 +21,10 @@ export class AppComponent implements OnInit {
     _loadingCtrl: LoadingController,
     _toastCtrl: ToastController,
     _alertCtrl: AlertController,
-    _translate: TranslateService
+    _translate: TranslateService,
+    _modalCtrl: ModalController,
     ) {
-    Fun.Init(_loadingCtrl, _toastCtrl, platform, _alertCtrl, _translate);
+    Fun.Init(_loadingCtrl, _toastCtrl, platform, _alertCtrl, _translate,_modalCtrl);
 
   }
 

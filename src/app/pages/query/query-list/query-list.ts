@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
-import { SmartTableData } from '../../../@core/data/smart-table';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableHelper } from '../../../Helper/SmartTableHelper';
 import { HttpHelper } from '../../../Helper/HttpHelper';
 import { SmartTableDataSource } from '../../../Helper/SmartTableDataSource';
 import { Fun } from '../../../Config/Fun';
-import { DtoResult } from '../../../Model/DtoRec/DtoResult';
+import { DtoResult, DtoResultObj } from '../../../Model/DtoRec/DtoResult';
+import { EditModelComponent } from '../../../components/edit-model/edit-model.component';
+import { NbWindowService } from '@nebular/theme';
 
 @Component({
   selector: 'query-list',
@@ -16,83 +16,153 @@ import { DtoResult } from '../../../Model/DtoRec/DtoResult';
 export class QueryListPage implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   settings: any = SmartTableHelper.getDefaultSetting();
-
+  configJson: any = {}
   constructor(
-    private service: SmartTableData,
     private HttpHelper: HttpHelper,
-    http: Http,
+    private windowService: NbWindowService
   ) {
-    this.source = new SmartTableDataSource(this.HttpHelper, { endPoint: 'module/list' });
-    // this.settings.mode="inline"
-    this.settings.columns = {
-      ID: {
-        title: '模块ID',
-        type: 'number',
-        editable: false,
+    this.source = new SmartTableDataSource(this.HttpHelper, { endPoint: 'Query/List' });
+    this.configJson = {
+      "ID": {
+        "title": '查询ID',
+        "type": 'number',
+        "editable": false
       },
-      NAME: {
-        title: '模块名',
-        type: 'string',
-        editable:true
+      "NAME": {
+        "title": '查询名',
+        "type": 'string'
       },
-      PARENT_ID: {
-        title: '上级ID',
-        type: 'number',
+      "CODE": {
+        "title": '代码',
+        "type": 'string'
       },
-      LOCATION: {
-        title: '地址',
-        type: 'string',
-      },
-      CODE: {
-        title: '代码',
-        type: 'string',
-      },
-      IS_DEBUG: {
-        title: '是否调试',
-        type: 'number',
-        editor: {
-          type: 'list',
-          config: {
-            list: [
-              { value: '1', title: '是' }, 
-              { value: '0', title: '否' }, 
-            ],
-          },
-        },
-      },
-      IS_HIDE: {
-        title: '是否隐藏',
-        type: 'number',
-      },
-      SHOW_ORDER: {
-        title: '排序号',
-        type: 'number',
-      },
-      DESCRIPTION: {
-        title: '描述',
-        type: 'string',
-        inputWidth: 12,
-        editor: {
-          type: 'textarea'
+      "AUTO_LOAD": {
+        "title": '自动加载',
+        "defaultValue": 1,
+        "type": 'string',
+        "editor": {
+          "type": 'list',
+          "config": {
+            "list": [
+              { "value": '1', "title": '是' },
+              { "value": '0', "title": '否' }
+            ]
+          }
         }
       },
-      IMAGE_URL: {
-        title: '图片地址',
-        type: 'string',
+      "PAGE_SIZE": {
+        "title": '页面大小',
+        "type": 'number',
+        "defaultValue": 10
       },
-      DESKTOP_ROLE: {
-        title: '是否首页显示',
-        type: 'string',
+      "SHOW_CHECKBOX": {
+        "title": '允许多选',
+        "type": 'string',
+        "defaultValue": 1,
+        "editor": {
+          "type": 'list',
+          "config": {
+            "list": [
+              { "value": '1', "title": '是' },
+              { "value": '0', "title": '否' }
+            ]
+          }
+        }
       },
-      W: {
-        title: '宽',
-        type: 'number',
+      "IS_DEBUG": {
+        "title": '是否隐藏',
+        "type": 'string',
+        "defaultValue": 1,
+        "editor": {
+          "type": 'list',
+          "config": {
+            "list": [
+              { "value": '1', "title": '是' },
+              { "value": '0', "title": '否' }
+            ]
+          }
+        }
       },
-      H: {
-        title: '高',
-        type: 'number',
+      "FILTR_LEVEL": {
+        "title": '过滤层级',
+        "type": 'number',
+        "defaultValue": 1
+      },
+      "DESKTOP_ROLE": {
+        "title": '是否首页显示',
+        "type": 'string'
+      },
+      "NEW_DATA": {
+        "title": '输入的时间',
+        "type": 'string'
+      },
+      "QUERY_CONF": {
+        "title": '查询脚本',
+        "type": 'string',
+        "inputWidth": 12,
+        "isTabs": true,
+        "hide": true,
+        "editor": {
+          "type": 'textarea'
+        }
+      },
+      "QUERY_CFG_JSON": {
+        "title": '列配置信息',
+        "type": 'string',
+        "isTabs": true,
+        "hide": true,
+        "inputWidth": 12,
+        "editor": {
+          "type": 'textarea'
+        }
+      },
+
+      "IN_PARA_JSON": {
+        "title": '传入的参数',
+        "type": 'string',
+        "isTabs": true,
+        "hide": true,
+        "inputWidth": 12,
+        "editor": {
+          "type": 'textarea'
+        }
+      },
+      "JS_STR": {
+        "title": 'JS脚本',
+        "type": 'string',
+        "isTabs": true,
+        "hide": true,
+        "inputWidth": 12,
+        "editor": {
+          "type": 'textarea'
+        }
+      },
+      "ROWS_BTN": {
+        "title": '行按钮',
+        "isTabs": true,
+        "hide": true,
+        "type": 'string'
+      },
+      "HEARD_BTN": {
+        "title": '表头按钮',
+        "isTabs": true,
+        "hide": true,
+        "type": 'string'
+      },
+
+      "REMARK": {
+        "title": '备注',
+        "isTabs": true,
+        "hide": true,
+        "type": 'string',
+        "inputWidth": 12,
+        "editor": {
+          "type": 'textarea'
+        }
       }
     }
+    //隐藏，hide=true的字段
+    this.settings.columns = this.configJson;
   }
 
   ngOnInit() {
@@ -105,23 +175,34 @@ export class QueryListPage implements OnInit {
    */
   onSave(event): void {
     console.log(event.data)
-    let title="修改模块";
+    let title = "修改模块";
     if (event.data != null) {
-      title= "添加模块"
+      title = "添加模块"
     }
-
-    Fun.Confirm("title",event.data,()=>{
-      let postClass: any = {};
-      postClass.Data = event.data;
-      this.HttpHelper.Post("module/save", postClass).then((data: DtoResult) => {
-        if (data.IsSuccess) {
-          this.source.refresh()
+    this.windowService.open(EditModelComponent,{context:{
+      bean: event.data,
+      message: title,
+      OkHandler: (bean, saveKeys) => {
+        if (window.confirm('确定要保存吗？')) {
+          let postClass: any = {};
+          postClass.Data = bean;
+          postClass.SaveKeys = saveKeys;
+          this.HttpHelper.Post("query/save", postClass).then((data: DtoResultObj<any>) => {
+            console.log(data)
+            if (data.IsSuccess) {
+              this.source.refresh()
+            }
+            else {
+              Fun.Hint(data.Msg)
+            }
+          });
+        } else {
         }
-      });
-    },()=>{
-
-    },"确定","取消")
+      }
+    }
+    });
   }
+
 
   /**
    * 
@@ -133,7 +214,7 @@ export class QueryListPage implements OnInit {
       Fun.ShowLoading();
       let postClass: any;
       postClass.Key = event.data.ID;
-      this.HttpHelper.Post("module/delete", postClass).then((data: DtoResult) => {
+      this.HttpHelper.Post("query/delete", postClass).then((data: DtoResult) => {
         Fun.HideLoading()
         if (data.IsSuccess) {
           this.source.refresh()

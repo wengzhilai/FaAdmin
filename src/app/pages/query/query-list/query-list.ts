@@ -179,27 +179,39 @@ export class QueryListPage implements OnInit {
     if (event.data != null) {
       title = "添加模块"
     }
-    this.windowService.open(EditModelComponent,{context:{
-      bean: event.data,
-      message: title,
-      OkHandler: (bean, saveKeys) => {
-        if (window.confirm('确定要保存吗？')) {
-          let postClass: any = {};
-          postClass.Data = bean;
-          postClass.SaveKeys = saveKeys;
-          this.HttpHelper.Post("query/save", postClass).then((data: DtoResultObj<any>) => {
-            console.log(data)
-            if (data.IsSuccess) {
-              this.source.refresh()
-            }
-            else {
-              Fun.Hint(data.Msg)
-            }
-          });
-        } else {
+    this.windowService.open(EditModelComponent, {
+      windowClass:"DivWindow",
+      context: {
+        bean: event.data,
+        title: title,
+        messageList:["a"],
+        inputs: this.configJson,
+        buttons: [{
+          name: "确定", click: (x) => {
+            console.log(x);
+            return new Promise((resolve, reject) => {
+              resolve(new DtoResult());
+            });
+          }
+        }],
+        OkHandler: (bean, saveKeys) => {
+          if (window.confirm('确定要保存吗？')) {
+            let postClass: any = {};
+            postClass.Data = bean;
+            postClass.SaveKeys = saveKeys;
+            this.HttpHelper.Post("query/save", postClass).then((data: DtoResultObj<any>) => {
+              console.log(data)
+              if (data.IsSuccess) {
+                this.source.refresh()
+              }
+              else {
+                Fun.Hint(data.Msg)
+              }
+            });
+          } else {
+          }
         }
       }
-    }
     });
   }
 

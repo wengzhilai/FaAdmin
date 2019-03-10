@@ -50,7 +50,7 @@ import { StatsProgressBarService } from './mock/stats-progress-bar.service';
 import { VisitorsAnalyticsService } from './mock/visitors-analytics.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { MockDataModule } from './mock/mock-data.module';
-import { NbAuthModule, NbDummyAuthStrategy } from '../Lib/Nebular/auth';
+import { NbAuthModule, NbDummyAuthStrategy } from '@Nebular/auth';
 
 const socialLinks = [
   {

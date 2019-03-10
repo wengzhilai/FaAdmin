@@ -1,6 +1,6 @@
 import { LocalDataSource } from "ng2-smart-table";
 import { ServerSourceConf } from "ng2-smart-table/lib/data-source/server/server-source.conf";
-import { getDeepFromObject } from "../Lib/Nebular/auth/helpers";
+import { getDeepFromObject } from "@Nebular/auth/helpers";
 import { Observable } from "rxjs";
 import { HttpHelper } from "./HttpHelper";
 import { Fun } from "../Config/Fun";

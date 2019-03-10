@@ -270,7 +270,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Login',
-        link: '/auth/login',
+        link: '/User/Login',
       },
       {
         title: 'Register',

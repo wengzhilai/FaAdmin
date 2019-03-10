@@ -3,12 +3,8 @@
     {{"query.list-title"|translate}}
   </nb-card-header>
 
-
-
   <nb-card-body>
-      
     <ng2-smart-table 
-    #smartTable
     [settings]="settings" 
     [source]="source" 
     (create)="onSave($event)"

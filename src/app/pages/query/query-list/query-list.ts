@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableHelper } from '../../../Helper/SmartTableHelper';
 import { HttpHelper } from '../../../Helper/HttpHelper';
 import { SmartTableDataSource } from '../../../Helper/SmartTableDataSource';
 import { Fun } from '../../../Config/Fun';
 import { DtoResult, DtoResultObj } from '../../../Model/DtoRec/DtoResult';
 import { EditModelComponent } from '../../../components/edit-model/edit-model.component';
 import { NbWindowService } from '@nebular/theme';
+import { ServerSourceConf } from 'ng2-smart-table/lib/data-source/server/server-source.conf';
 
 @Component({
   selector: 'query-list',
@@ -15,13 +15,17 @@ import { NbWindowService } from '@nebular/theme';
 })
 export class QueryListPage implements OnInit {
   source: LocalDataSource = new LocalDataSource();
-  settings: any = SmartTableHelper.getDefaultSetting();
+  /** 静态方法，获取默认配置 */
+  settings: any = SmartTableDataSource.getDefaultSetting();
   configJson: any = {}
   constructor(
     private HttpHelper: HttpHelper,
     private windowService: NbWindowService
   ) {
-    this.source = new SmartTableDataSource(this.HttpHelper, { endPoint: 'Query/List' });
+    let smartTableCofnig:ServerSourceConf=new ServerSourceConf();
+    smartTableCofnig.endPoint='Query/List';
+    smartTableCofnig.pagerLimitKey=""
+    this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig);
     this.configJson = {
       "ID": {
         "title": '查询ID',
@@ -184,7 +188,6 @@ export class QueryListPage implements OnInit {
       context: {
         bean: event.data,
         title: title,
-        messageList:["a"],
         inputs: this.configJson,
         buttons: [{
           name: "确定", click: (x) => {

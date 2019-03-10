@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
 import { SmartTableData } from '../../../@core/data/smart-table';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableHelper } from '../../../Helper/SmartTableHelper';
 import { HttpHelper } from '../../../Helper/HttpHelper';
 import { SmartTableDataSource } from '../../../Helper/SmartTableDataSource';
 import { Fun } from '../../../Config/Fun';
@@ -15,12 +13,11 @@ import { DtoResult } from '../../../Model/DtoRec/DtoResult';
 })
 export class QueryQueryComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
-  settings: any = SmartTableHelper.getDefaultSetting();
+  settings: any = SmartTableDataSource.getDefaultSetting();
 
   constructor(
     private service: SmartTableData,
     private HttpHelper: HttpHelper,
-    http: Http,
   ) {
     this.source = new SmartTableDataSource(this.HttpHelper, { endPoint: 'module/list' });
     // this.settings.mode="inline"

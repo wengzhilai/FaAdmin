@@ -101,13 +101,15 @@ export class HttpHelper {
     console.log("请求参数")
     console.log(postBean)
 
-    return Observable.create((observer) => {
+    return Observable.create(async (observer) => {
+      await Fun.ShowLoading();
       this.http.post(Variables.Api + apiName, postBean, httpOptions).subscribe({
         next: (res:DtoResultObj<any>) => {
           console.log("返回结果：");
           console.log(res)
           console.timeEnd("Post时间");
           console.groupEnd();
+          Fun.HideLoading();
           observer.next(res);
           observer.complete();
         },
@@ -117,6 +119,7 @@ export class HttpHelper {
           var errObj: DtoResultObj<any> = new DtoResultObj<any>();
           errObj.IsSuccess = false;
           errObj.Msg = err.message;
+          Fun.HideLoading();
           observer.next(errObj);
           observer.complete();
         }

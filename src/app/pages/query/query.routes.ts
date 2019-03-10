@@ -15,7 +15,7 @@ export const routes: Routes = [
         component: QueryListPage,
       },
       {
-        path: 'query/:code',
+        path: 'query',
         component: QueryQueryComponent,
       }
     ],

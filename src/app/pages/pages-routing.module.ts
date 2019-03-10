@@ -13,13 +13,8 @@ const routes: Routes = [{
     {
       path: 'user',
       loadChildren: './user/user.module#UserModule',
-    }, {
-      path: 'role',
-      loadChildren: './role/role.module#RoleModule',
-    }, {
-      path: 'module',
-      loadChildren: './module/module.module#ModuleModule',
-    }, {
+    }, 
+    {
       path: 'query',
       loadChildren: './query/query.module#QueryModule',
     },

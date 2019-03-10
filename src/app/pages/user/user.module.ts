@@ -4,7 +4,6 @@ import { ThemeModule } from '../../@theme/theme.module';
 
 import { routedComponents,UserRoutingModule } from './user.routes';
 import { UserProfilePage } from './user-profile/user-profile';
-import { UserListPage } from './user-list/user-list';
 
 
 @NgModule({
@@ -16,7 +15,6 @@ import { UserListPage } from './user-list/user-list';
   declarations: [
     routedComponents,
     UserProfilePage,
-    UserListPage
   ],
   entryComponents: [
   ],

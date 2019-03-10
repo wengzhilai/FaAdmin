@@ -33,57 +33,15 @@ export class SmartTableDataSource extends LocalDataSource {
   getElements(): Promise<any> {
 
     return this.requestElements()
-    .pipe(map(res => {
-      this.lastRequestCount = this.extractTotalFromResponse(res);
-      this.data=res.DataList;
-      console.log(this.lastRequestCount);
-      console.log(this.data);
-      return this.data;
-    })).toPromise();
+      .pipe(map(res => {
+        this.lastRequestCount = this.extractTotalFromResponse(res);
+        this.data = res.DataList;
+        console.log(this.lastRequestCount);
+        console.log(this.data);
+        return this.data;
+      })).toPromise();
   }
-  /**
-   * 获取默认的表参数
-   */
-  static getDefaultSetting() {
-    return {
-      noDataMessage: "无数据",
-      mode: "external",
-      selectMode: "multi",
-      hideSubHeader: true, //隐藏默认的过滤行
-      add: {
-        addButtonContent: '<i class="nb-plus"></i>',
-        createButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>',
-      },
-      edit: {
-        editButtonContent: '<i class="nb-edit"></i>',
-        saveButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>',
-      },
-      delete: {
-        deleteButtonContent: '<i class="nb-trash"></i>',
-      },
-      actions: {
-        columnTitle: "操作",
-        // position:"right"
-      },
-      columns: {}
-    }
-  }
-  /**
-   * 删除有Hide为true的项
-   * @param objJson 
-   */
-  static ReMoveHideItem(objJson) {
-    console.log("删除有Hide为true的项")
-    let reJson = {}
-    for (var item in objJson) {
-      if (objJson[item]["hide"] == null || objJson[item]["hide"] != true) {
-        reJson[item] = objJson[item]
-      }
-    }
-    return reJson
-  }
+
   /**
    * Extracts array of data from server response
    * @param res
@@ -110,11 +68,11 @@ export class SmartTableDataSource extends LocalDataSource {
    */
   protected extractTotalFromResponse(res: DtoResultObj<any>): number {
     console.log("从第一条提出总数");
-    let total:number=0
-    if(res.Msg==null || res.Msg==""){
-      total=res.DataList.length;
-    }else{
-      total=parseInt(res.Msg);
+    let total: number = 0
+    if (res.Msg == null || res.Msg == "") {
+      total = res.DataList.length;
+    } else {
+      total = parseInt(res.Msg);
     }
     return total
   }
@@ -124,10 +82,14 @@ export class SmartTableDataSource extends LocalDataSource {
 
     let allPar = this.createRequestOptions();
     let par: URLSearchParams = allPar.params as URLSearchParams
+    console.log(par)
     let postBean: any = {};
     par.forEach((vars, key) => {
-      if (key == "_limit") postBean.PageSize = parseInt(vars[0]);
-      if (key == "_page") postBean.PageIndex = parseInt(vars[0]);
+      console.log(key)
+      console.log(vars)
+
+      if (key == "_limit") postBean.PageSize = parseInt(vars);
+      if (key == "_page") postBean.PageIndex = parseInt(vars);
       if (key == "_sort") postBean.OrderBy = [{ Key: vars[0], Value: par.get("_order")[0], Type: "" }]; //排序字段
       if (key.indexOf('_like') > 0) {
         let keyName = key.substr(0, key.indexOf('_like'));
@@ -192,6 +154,56 @@ export class SmartTableDataSource extends LocalDataSource {
     }
 
     return requestOptions;
+  }
+
+
+
+    /**
+   * 获取默认的表参数
+   */
+  public static getDefaultSetting() {
+    return {
+      noDataMessage: "无数据",
+      mode: "external",
+      selectMode: "multi",
+      hideSubHeader: true, //隐藏默认的过滤行
+      add: {
+        addButtonContent: '<i class="nb-plus"></i>',
+        createButtonContent: '<i class="nb-checkmark"></i>',
+        cancelButtonContent: '<i class="nb-close"></i>',
+      },
+      edit: {
+        editButtonContent: '<i class="nb-edit"></i>',
+        saveButtonContent: '<i class="nb-checkmark"></i>',
+        cancelButtonContent: '<i class="nb-close"></i>',
+      },
+      delete: {
+        deleteButtonContent: '<i class="nb-trash"></i>',
+      },
+      actions: {
+        columnTitle: "操作",
+        // position:"right"
+      },
+      columns: {},
+      pager: {
+        display: true,
+        perPage: 3
+      }
+    }
+  }
+  /**
+   * 删除有Hide为true的项
+   * @param objJson 
+   */
+  public static ReMoveHideItem(objJson) {
+    console.log("删除有Hide为true的项")
+    let reJson = {}
+    for (var item in objJson) {
+      if (objJson[item]["hide"] == null || objJson[item]["hide"] != true) {
+        reJson[item] = objJson[item]
+      }
+    }
+    return reJson
   }
 }
 

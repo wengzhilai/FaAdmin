@@ -14,17 +14,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: Fun.LanguageStr("Menu.Role"),
         icon: 'ion-person-stalker',
-        link: '/pages/role/list',
+        link: '/pages/query/query',
+        queryParams:{code:"role"}
       },
       {
         title: Fun.LanguageStr("Menu.User"),
         icon: 'ion-person',
-        link: '/pages/user/list',
+        link: '/pages/query/query',
+        queryParams:{code:"user"}
       },
       {
         title: Fun.LanguageStr("Menu.Model"),
         icon: 'ion-android-archive',
-        link: '/pages/module/list',
+        link: '/pages/query/query',
+        queryParams:{code:"model"}
       },
       {
         title: Fun.LanguageStr("Menu.Query"),

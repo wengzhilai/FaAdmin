@@ -7,6 +7,8 @@ import { DtoResult, DtoResultObj } from '../../../Model/DtoRec/DtoResult';
 import { EditModelComponent } from '../../../components/edit-model/edit-model.component';
 import { NbWindowService } from '@nebular/theme';
 import { ServerSourceConf } from 'ng2-smart-table/lib/data-source/server/server-source.conf';
+import { DtoSaveObj } from '../../../Model/DtoPost/DtoSaveObj';
+import { DtoDo } from '../../../Model/DtoPost/DtoDo';
 
 @Component({
   selector: 'query-list',
@@ -22,9 +24,9 @@ export class QueryListPage implements OnInit {
     private HttpHelper: HttpHelper,
     private windowService: NbWindowService
   ) {
-    let smartTableCofnig:ServerSourceConf=new ServerSourceConf();
-    smartTableCofnig.endPoint='Query/List';
-    smartTableCofnig.pagerLimitKey=""
+    let smartTableCofnig: ServerSourceConf = new ServerSourceConf();
+    smartTableCofnig.endPoint = 'Query/List';
+    smartTableCofnig.pagerLimitKey = ""
     this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig);
     this.configJson = {
       "ID": {
@@ -48,8 +50,8 @@ export class QueryListPage implements OnInit {
           "type": 'list',
           "config": {
             "list": [
-              { "value": '1', "title": '是' },
-              { "value": '0', "title": '否' }
+              { "value": true, "title": '是' },
+              { "value": false, "title": '否' }
             ]
           }
         }
@@ -67,8 +69,8 @@ export class QueryListPage implements OnInit {
           "type": 'list',
           "config": {
             "list": [
-              { "value": '1', "title": '是' },
-              { "value": '0', "title": '否' }
+              { "value": true, "title": '是' },
+              { "value": false, "title": '否' }
             ]
           }
         }
@@ -81,8 +83,8 @@ export class QueryListPage implements OnInit {
           "type": 'list',
           "config": {
             "list": [
-              { "value": '1', "title": '是' },
-              { "value": '0', "title": '否' }
+              { "value": true, "title": '是' },
+              { "value": false, "title": '否' }
             ]
           }
         }
@@ -167,6 +169,7 @@ export class QueryListPage implements OnInit {
     }
     //隐藏，hide=true的字段
     this.settings.columns = this.configJson;
+    this.settings.actions["add"]=true;
   }
 
   ngOnInit() {
@@ -177,45 +180,57 @@ export class QueryListPage implements OnInit {
    * 
    * @param event 添加事件
    */
-  onSave(event): void {
+  async onSave(event): Promise<void> {
     console.log(event.data)
-    let title = "修改模块";
-    if (event.data != null) {
-      title = "添加模块"
-    }
-    this.windowService.open(EditModelComponent, {
-      windowClass:"DivWindow",
-      context: {
-        bean: event.data,
-        title: title,
-        inputs: this.configJson,
-        buttons: [{
-          name: "确定", click: (x) => {
-            console.log(x);
-            return new Promise((resolve, reject) => {
-              resolve(new DtoResult());
-            });
-          }
-        }],
-        OkHandler: (bean, saveKeys) => {
-          if (window.confirm('确定要保存吗？')) {
-            let postClass: any = {};
-            postClass.Data = bean;
-            postClass.SaveKeys = saveKeys;
-            this.HttpHelper.Post("query/save", postClass).then((data: DtoResultObj<any>) => {
-              console.log(data)
-              if (data.IsSuccess) {
-                this.source.refresh()
-              }
-              else {
-                Fun.Hint(data.Msg)
-              }
-            });
-          } else {
-          }
+    //先根据ID找到对象
+    await Fun.ShowLoading();
+    this.HttpHelper.Post("Query/Single", { Key: event.data.ID }).then(async (x: DtoResultObj<any>) => {
+      await Fun.HideLoading()
+      if (x.IsSuccess) {
+        let title = "修改模块";
+        if (event.data != null) {
+          title = "添加模块"
         }
+        this.windowService.open(EditModelComponent, {
+          windowClass: "DivWindow",
+          title:title,
+          context: {
+            bean: x.Data,
+            title: title,
+            inputs: this.configJson,
+            buttons: [{
+              name: "确定", click: (x) => {
+                console.log(x);
+
+                if (window.confirm('确定要保存吗？')) {
+                  let postClass: DtoSaveObj<any>=new DtoSaveObj<any>();
+                  postClass.Data = x;
+                  postClass.SaveFieldList = Fun.GetBeanNameStr(x);
+                  this.HttpHelper.Post("Query/Save", postClass).then((data: DtoResultObj<any>) => {
+                    console.log(data)
+                    if (data.IsSuccess) {
+                      this.source.refresh()
+                    }
+                    else {
+                      Fun.Hint(data.Msg)
+                    }
+                  });
+                } else {
+                }
+
+
+                return new Promise((resolve, reject) => {
+                  resolve(new DtoResult());
+                });
+              }
+            }]
+          }
+        });
       }
-    });
+    })
+
+
+
   }
 
 
@@ -227,9 +242,9 @@ export class QueryListPage implements OnInit {
     console.log(event.data)
     if (window.confirm('确定要删除吗?')) {
       Fun.ShowLoading();
-      let postClass: any;
+      let postClass: DtoDo=new DtoDo();
       postClass.Key = event.data.ID;
-      this.HttpHelper.Post("query/delete", postClass).then((data: DtoResult) => {
+      this.HttpHelper.Post("Query/Delete", postClass).then((data: DtoResult) => {
         Fun.HideLoading()
         if (data.IsSuccess) {
           this.source.refresh()

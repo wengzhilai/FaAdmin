@@ -4,7 +4,6 @@ import { ThemeModule } from '../../@theme/theme.module';
 
 import { routedComponents,UserRoutingModule } from './user.routes';
 import { UserProfilePage } from './user-profile/user-profile';
-import { NgUserLoginComponent } from './ng-user-login/ng-user-login.component';
 import { TranslateModule } from '../../Lib/ngx-translate/public_api';
 import { PipesModule } from '../../pipes/pipes.module';
 
@@ -20,7 +19,6 @@ import { PipesModule } from '../../pipes/pipes.module';
   declarations: [
     routedComponents,
     UserProfilePage,
-    NgUserLoginComponent,
   ],
   entryComponents: [
   ],

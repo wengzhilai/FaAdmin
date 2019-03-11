@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ContentChild, ViewContainerRef, Renderer2 } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { HttpHelper } from '../../../Helper/HttpHelper';
 import { SmartTableDataSource } from '../../../Helper/SmartTableDataSource';
@@ -16,13 +16,16 @@ import { DtoDo } from '../../../Model/DtoPost/DtoDo';
   styleUrls: ['./query-list.scss']
 })
 export class QueryListPage implements OnInit {
+  @ViewChild('samrtTable', {read:ViewContainerRef}) container:ViewContainerRef;
+  @ViewChild('clone') template;
   source: LocalDataSource = new LocalDataSource();
   /** 静态方法，获取默认配置 */
   settings: any = SmartTableDataSource.getDefaultSetting();
   configJson: any = {}
   constructor(
     private HttpHelper: HttpHelper,
-    private windowService: NbWindowService
+    private windowService: NbWindowService,
+    private renderer: Renderer2
   ) {
     let smartTableCofnig: ServerSourceConf = new ServerSourceConf();
     smartTableCofnig.endPoint = 'Query/List';
@@ -173,6 +176,15 @@ export class QueryListPage implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      var table=this.container.element.nativeElement.children[0];
+      var tableHeald=table.children[0]
+      var tableHealdFirstRow=table.children[0].children[0]
+
+      // const text = this.renderer.createText('Hello world!');
+
+      this.renderer.insertBefore(tableHeald,this.template.nativeElement,tableHealdFirstRow)
+    }, 1000);
 
   }
 

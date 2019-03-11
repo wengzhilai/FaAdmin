@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NbWindowService, NbWindowRef } from '@nebular/theme';
+import { Client } from '_debugger';
 
 @Component({
   selector: 'ngx-edit-model',
@@ -18,6 +19,7 @@ export class EditModelComponent implements OnInit {
    */
   ItmeArr=new Array<any>();
   bean = {}
+  screenheight=document.documentElement.clientHeight-300
   constructor(
     public windowRef: NbWindowRef
   ) {

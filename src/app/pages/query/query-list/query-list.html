@@ -2,9 +2,11 @@
   <nb-card-header >
     {{"query.list-title"|translate}}
   </nb-card-header>
-
+  <tr #btnHead>
+    <td colspan="5">按键地址</td>
+  </tr>
   <nb-card-body>
-    <ng2-smart-table 
+    <ng2-smart-table #samrtTable
     [settings]="settings" 
     [source]="source" 
     (create)="onSave($event)"

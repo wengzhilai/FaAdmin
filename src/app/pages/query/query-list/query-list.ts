@@ -16,12 +16,14 @@ import { DtoDo } from '../../../Model/DtoPost/DtoDo';
   styleUrls: ['./query-list.scss']
 })
 export class QueryListPage implements OnInit {
-  @ViewChild('samrtTable', {read:ViewContainerRef}) container:ViewContainerRef;
-  @ViewChild('clone') template;
+  @ViewChild('samrtTable', { read: ViewContainerRef }) container: ViewContainerRef;
+  @ViewChild('btnHead') template;
   source: LocalDataSource = new LocalDataSource();
   /** 静态方法，获取默认配置 */
   settings: any = SmartTableDataSource.getDefaultSetting();
   configJson: any = {}
+
+  clmNum: number = 0
   constructor(
     private HttpHelper: HttpHelper,
     private windowService: NbWindowService,
@@ -170,29 +172,43 @@ export class QueryListPage implements OnInit {
         }
       }
     }
+    for (const key in this.configJson) {
+      this.clmNum++;
+    }
+    this.clmNum += 2;
+
     //隐藏，hide=true的字段
     this.settings.columns = this.configJson;
-    this.settings.actions["add"]=true;
+    this.settings.actions["add"] = true;
   }
 
   ngOnInit() {
     setTimeout(() => {
-      var table=this.container.element.nativeElement.children[0];
-      var tableHeald=table.children[0]
-      var tableHealdFirstRow=table.children[0].children[0]
-
+      var table = this.container.element.nativeElement.children[0];
+      var tableHeald = table.children[0]
+      var tableHealdFirstRow = table.children[0].children[0]
+      // console.log(this.container)
+      // console.log(tableHeald)
+      // console.log(tableHealdFirstRow)
+      // console.log(this.template.nativeElement)
       // const text = this.renderer.createText('Hello world!');
-
-      this.renderer.insertBefore(tableHeald,this.template.nativeElement,tableHealdFirstRow)
+      this.renderer.appendChild(table, this.template.nativeElement)
+      // this.renderer.insertBefore(tableHeald,this.template.nativeElement,tableHealdFirstRow)
     }, 1000);
-
   }
+
+
 
   /**
    * 
    * @param event 添加事件
    */
   async onSave(event): Promise<void> {
+    if (event == null) {
+      this.OpenEditWindow("添加模块", {})
+      return;
+    }
+
     console.log(event.data)
     //先根据ID找到对象
     await Fun.ShowLoading();
@@ -203,46 +219,57 @@ export class QueryListPage implements OnInit {
         if (event.data != null) {
           title = "添加模块"
         }
-        this.windowService.open(EditModelComponent, {
-          windowClass: "DivWindow",
-          title:title,
-          context: {
-            bean: x.Data,
-            title: title,
-            inputs: this.configJson,
-            buttons: [{
-              name: "确定", click: (x) => {
-                console.log(x);
-
-                if (window.confirm('确定要保存吗？')) {
-                  let postClass: DtoSaveObj<any>=new DtoSaveObj<any>();
-                  postClass.Data = x;
-                  postClass.SaveFieldList = Fun.GetBeanNameStr(x);
-                  this.HttpHelper.Post("Query/Save", postClass).then((data: DtoResultObj<any>) => {
-                    console.log(data)
-                    if (data.IsSuccess) {
-                      this.source.refresh()
-                    }
-                    else {
-                      Fun.Hint(data.Msg)
-                    }
-                  });
-                } else {
-                }
-
-
-                return new Promise((resolve, reject) => {
-                  resolve(new DtoResult());
-                });
-              }
-            }]
-          }
-        });
+        this.OpenEditWindow(title, x.Data)
       }
     })
 
 
 
+  }
+
+  /**
+   * 
+   * @param title 标题
+   * @param data 修改数据
+   */
+  OpenEditWindow(title: string, data: any) {
+    this.windowService.open(EditModelComponent, {
+      windowClass: "DivWindow",
+      title: title,
+      context: {
+        bean: data,
+        inputs: this.configJson,
+        buttons: [{
+          name: "确定", click: (x) => {
+
+
+
+            return new Promise(async (resolve, reject) => {
+              console.log(x);
+              if (window.confirm('确定要保存吗？')) {
+                let postClass: DtoSaveObj<any> = new DtoSaveObj<any>();
+                postClass.Data = x;
+                postClass.SaveFieldList = Fun.GetBeanNameStr(x);
+                await Fun.ShowLoading();
+
+                this.HttpHelper.Post("Query/Save", postClass).then((data: DtoResultObj<any>) => {
+                  Fun.HideLoading();
+                  console.log(data)
+                  if (data.IsSuccess) {
+                    this.source.refresh()
+                  }
+                  else {
+                    Fun.Hint(data.Msg)
+                  }
+                  resolve(data);
+                });
+              } else {
+              }
+            });
+          }
+        }]
+      }
+    });
   }
 
 
@@ -254,7 +281,7 @@ export class QueryListPage implements OnInit {
     console.log(event.data)
     if (window.confirm('确定要删除吗?')) {
       Fun.ShowLoading();
-      let postClass: DtoDo=new DtoDo();
+      let postClass: DtoDo = new DtoDo();
       postClass.Key = event.data.ID;
       this.HttpHelper.Post("Query/Delete", postClass).then((data: DtoResult) => {
         Fun.HideLoading()

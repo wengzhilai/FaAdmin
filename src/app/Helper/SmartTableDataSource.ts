@@ -1,6 +1,6 @@
 import { LocalDataSource } from "ng2-smart-table";
 import { ServerSourceConf } from "ng2-smart-table/lib/data-source/server/server-source.conf";
-import { getDeepFromObject } from "@Nebular/auth/helpers";
+// import { getDeepFromObject } from "@Nebular/auth/helpers";
 import { Observable } from "rxjs";
 import { HttpHelper } from "./HttpHelper";
 import { Fun } from "../Config/Fun";
@@ -50,8 +50,8 @@ export class SmartTableDataSource extends LocalDataSource {
   protected extractDataFromResponse(res: any): Array<any> {
     console.log("从服务器响应中提取数据数组");
     const rawData = res;
-    const data = !!this.conf.dataKey ? getDeepFromObject(rawData, this.conf.dataKey, []) : rawData;
-
+    // const data = !!this.conf.dataKey ? getDeepFromObject(rawData, this.conf.dataKey, []) : rawData;
+    const data=res
     if (data.Data instanceof Array) {
       return data.Data;
     }

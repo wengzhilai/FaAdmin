@@ -101,8 +101,8 @@ export class HttpHelper {
     console.log("请求参数")
     console.log(postBean)
 
-    return Observable.create(async (observer) => {
-      await Fun.ShowLoading();
+    return Observable.create((observer) => {
+      Fun.ShowLoading();
       this.http.post(Variables.Api + apiName, postBean, httpOptions).subscribe({
         next: (res:DtoResultObj<any>) => {
           console.log("返回结果：");

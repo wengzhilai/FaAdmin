@@ -50,7 +50,7 @@ import { StatsProgressBarService } from './mock/stats-progress-bar.service';
 import { VisitorsAnalyticsService } from './mock/visitors-analytics.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { MockDataModule } from './mock/mock-data.module';
-import { NbAuthModule, NbDummyAuthStrategy } from '@Nebular/auth';
+// import { NbAuthModule, NbDummyAuthStrategy } from '@Nebular/auth';
 
 const socialLinks = [
   {
@@ -102,23 +102,6 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
 export const NB_CORE_PROVIDERS = [
   ...MockDataModule.forRoot().providers,
   ...DATA_SERVICES,
-  ...NbAuthModule.forRoot({
-
-    strategies: [
-      NbDummyAuthStrategy.setup({
-        name: 'email',
-        delay: 3000,
-      }),
-    ],
-    forms: {
-      login: {
-        socialLinks: socialLinks,
-      },
-      register: {
-        socialLinks: socialLinks,
-      },
-    },
-  }).providers,
 
   NbSecurityModule.forRoot({
     accessControl: {
@@ -148,7 +131,7 @@ export const NB_CORE_PROVIDERS = [
     CommonModule,
   ],
   exports: [
-    NbAuthModule,
+    // NbAuthModule,
   ],
   declarations: [],
 })

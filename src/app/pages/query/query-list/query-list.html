@@ -1,19 +1,18 @@
 <nb-card>
-  <nb-card-header >
-    {{"query.list-title"|translate}}
+  <nb-card-header>
+    {{"Query.list-title"|translate}}
   </nb-card-header>
   <tr #btnHead>
-    <td colspan="5">按键地址</td>
+    <td [attr.colspan]="clmNum">
+      <button type="button" class="btn btn-icon btn-primary btn-xs" (click)="onSave()">
+        <i class="nb-plus-circled" style="font-size: 2em"></i>
+        <span>{{"public.Create"|translate}}</span>
+      </button>
+    </td>
   </tr>
   <nb-card-body>
-    <ng2-smart-table #samrtTable
-    [settings]="settings" 
-    [source]="source" 
-    (create)="onSave($event)"
-    (delete)="onDelete($event)"
-    (userRowSelect)="userRowSelect($event)"
-    (edit)="onSave($event)"
-    >
+    <ng2-smart-table #samrtTable [settings]="settings" [source]="source" (create)="onSave($event)"
+      (delete)="onDelete($event)" (userRowSelect)="userRowSelect($event)" (edit)="onSave($event)">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>

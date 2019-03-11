@@ -35,7 +35,8 @@ export class EditModelComponent implements OnInit {
     console.log(this.ItmeArr)
   }
   ButtonClick(even) {
-    even(this.bean).then(x => {
+    even(this.bean)
+    .then(x => {
       console.log(x)
       this.windowRef.close();
     })

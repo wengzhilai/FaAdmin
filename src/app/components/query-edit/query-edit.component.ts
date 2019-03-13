@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NbWindowRef } from '@nebular/theme';
 
 @Component({
-  selector: 'ngx-edit-model',
-  templateUrl: './edit-model.component.html',
-  styleUrls: ['./edit-model.component.scss']
+  selector: 'ngx-query-edit',
+  templateUrl: './query-edit.component.html',
+  styleUrls: ['./query-edit.component.scss']
 })
-export class EditModelComponent implements OnInit {
+export class QueryEditComponent implements OnInit {
 
   title: string;
   messageList: any[] = [];

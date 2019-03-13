@@ -8,12 +8,12 @@ import { QueryQueryComponent } from './query/query';
 import { QueryComponent } from './query.component';
 import { TranslateModule } from '../../Lib/ngx-translate/public_api';
 import { ComponentsModule } from '../../components/components.module';
-import { EditModelComponent } from '../../components/edit-model/edit-model.component';
+import { QueryEditComponent } from '../../components/query-edit/query-edit.component';
 
 
 @NgModule({
   entryComponents: [
-    EditModelComponent
+    QueryEditComponent
   ],
   imports: [
     ThemeModule,

@@ -4,11 +4,11 @@ import { HttpHelper } from '../../../Helper/HttpHelper';
 import { SmartTableDataSource } from '../../../Helper/SmartTableDataSource';
 import { Fun } from '../../../Config/Fun';
 import { DtoResult, DtoResultObj } from '../../../Model/DtoRec/DtoResult';
-import { EditModelComponent } from '../../../components/edit-model/edit-model.component';
 import { NbWindowService } from '@nebular/theme';
 import { ServerSourceConf } from 'ng2-smart-table/lib/data-source/server/server-source.conf';
 import { DtoSaveObj } from '../../../Model/DtoPost/DtoSaveObj';
 import { DtoDo } from '../../../Model/DtoPost/DtoDo';
+import { QueryEditComponent } from '../../../components/query-edit/query-edit.component';
 
 @Component({
   selector: 'query-list',
@@ -233,7 +233,7 @@ export class QueryListPage implements OnInit {
    * @param data 修改数据
    */
   OpenEditWindow(title: string, data: any) {
-    this.windowService.open(EditModelComponent, {
+    this.windowService.open(QueryEditComponent, {
       windowClass: "DivWindow",
       title: title,
       context: {

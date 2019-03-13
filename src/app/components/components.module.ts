@@ -5,10 +5,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '../Lib/ngx-translate/public_api';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '../pipes/pipes.module';
+import { QueryEditComponent } from './query-edit/query-edit.component';
+import { ThemeModule } from '../@theme/theme.module';
 
 @NgModule({
-  entryComponents:[EditModelComponent],
-  declarations: [EditModelComponent],
+  entryComponents:[EditModelComponent,QueryEditComponent],
+  declarations: [EditModelComponent, QueryEditComponent],
   imports: [
     IonicModule,
     TranslateModule,
@@ -16,9 +18,11 @@ import { PipesModule } from '../pipes/pipes.module';
     FormsModule,
     CommonModule,
     PipesModule,
+    ThemeModule,
   ],
   exports:[
-    EditModelComponent
+    EditModelComponent,
+    QueryEditComponent
   ]
 })
 export class ComponentsModule { }

@@ -3,10 +3,9 @@ import { ServerSourceConf } from "ng2-smart-table/lib/data-source/server/server-
 // import { getDeepFromObject } from "@Nebular/auth/helpers";
 import { Observable } from "rxjs";
 import { HttpHelper } from "./HttpHelper";
-import { Fun } from "../Config/Fun";
 import { RequestOptionsArgs } from "@angular/http";
 import { map } from 'rxjs/operators';
-import { DtoResult, DtoResultObj } from "../Model/DtoRec/DtoResult";
+import { DtoResultObj } from "../Model/DtoRec/DtoResult";
 
 export class SmartTableDataSource extends LocalDataSource {
   protected conf: ServerSourceConf;
@@ -205,5 +204,56 @@ export class SmartTableDataSource extends LocalDataSource {
     }
     return reJson
   }
+}
+
+
+export class SmartTableSetting{
+
+  mode:string= 'inline';
+  selectMode:string= 'single'; // single|multi
+  hideHeader:boolean= false;
+  hideSubHeader: boolean=false;
+  actions:any= {
+    columnTitle: 'Actions',
+    add: true,
+    edit: true,
+    delete: true,
+    custom: [],
+    position: 'left', // left|right
+  };
+  filter:any= {
+    inputClass: '',
+  };
+  edit:any={
+    inputClass: '',
+    editButtonContent: 'Edit',
+    saveButtonContent: 'Update',
+    cancelButtonContent: 'Cancel',
+    confirmSave: false,
+  };
+  add: {
+    inputClass: '',
+    addButtonContent: 'Add New',
+    createButtonContent: 'Create',
+    cancelButtonContent: 'Cancel',
+    confirmCreate: false,
+  };
+  delete: {
+    deleteButtonContent: 'Delete',
+    confirmDelete: false,
+  };
+  attr: {
+    id: '',
+    class: '',
+  };
+  noDataMessage: 'No data found';
+  columns: {}
+  pager: {
+    display: true,
+    perPage: 10,
+  };
+  rowClassFunction: () => ""
+
+  
 }
 

@@ -4,47 +4,80 @@
   </ul>
   <div [ngStyle]="{'height':screenheight+'px','overflow-y':'auto'}">
     <div class="row show-grid">
-      <ng-container *ngFor="let item of ItmeArr;let i = index">
-        <div class="col-md-4" *ngIf="item.editable==null || item.editable==true">
-          <div class="form-group">
-            <label for="inputFirstName">{{item.title}}</label>
-            <input *ngIf="item.editor==null || item.editor.type=='text';else elseBlock" id="input{{i}}" [(ngModel)]="bean[item.name]"
-              type="{{item.type}}" class="form-control" placeholder="{{item.placeholder}}">
-            <ng-template #elseBlock>
-              <ng-container [ngSwitch]="item.editor.type">
-                <select *ngSwitchCase="'list'" id="input{{i}}" [(ngModel)]="bean[item.name]" class="form-control">
-                  <option *ngFor="let opt of item.editor.config.list" value="{{opt.value}}">{{opt.title}}</option>
-                </select>
-                <select *ngSwitchCase="'completer'" id="input{{i}}" [(ngModel)]="bean[item.name]" class="form-control">
-                  <option *ngFor="let opt of item.editor.config.completer.data" value="{{opt.value}}">{{opt.title}}
-                  </option>
-                </select>
-                <textarea *ngSwitchCase="'textarea'" id="input{{i}}" [(ngModel)]="bean[item.name]" rows="3" placeholder="{{item.placeholder}}"
-                  class="form-control"></textarea>
-
-                <input *ngSwitchDefault id="input{{i}}" [(ngModel)]="bean[item.name]" type="{{item.type}}" class="form-control"
-                  placeholder="{{item.placeholder}}">
-              </ng-container>
-            </ng-template>
-          </div>
-
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>{{inputs['NAME'].title}}</label>
+          <input [(ngModel)]="bean[inputs['NAME'].name]" type="text" class="form-control"
+            placeholder="{{inputs['NAME'].placeholder}}">
         </div>
-      </ng-container>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>{{inputs['CODE'].title}}</label>
+          <input [(ngModel)]="bean[inputs['CODE'].name]" type="text" class="form-control"
+            placeholder="{{inputs['CODE'].placeholder}}">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>{{inputs['PAGE_SIZE'].title}}</label>
+          <input [(ngModel)]="bean[inputs['PAGE_SIZE'].name]" type="number" class="form-control"
+            placeholder="{{inputs['PAGE_SIZE'].placeholder}}">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>{{inputs['AUTO_LOAD'].title}}</label>
+          <nb-checkbox status="success" [(ngModel)]="bean[inputs['AUTO_LOAD'].name]" class="form-control">
+            {{inputs['AUTO_LOAD'].title}}</nb-checkbox>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>{{inputs['SHOW_CHECKBOX'].title}}</label>
+          <nb-checkbox status="success" [(ngModel)]="bean[inputs['SHOW_CHECKBOX'].name]" class="form-control">
+            {{inputs['SHOW_CHECKBOX'].title}}</nb-checkbox>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>{{inputs['IS_DEBUG'].title}}</label>
+          <nb-checkbox status="success" [(ngModel)]="bean[inputs['IS_DEBUG'].name]" class="form-control">
+            {{inputs['IS_DEBUG'].title}}</nb-checkbox>
+        </div>
+      </div>
+
+    </div>
+    <div class="row show-grid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>{{inputs['QUERY_CONF'].title}}</label>
+          <textarea [(ngModel)]="bean[inputs['QUERY_CONF'].name]" rows="4"
+            placeholder="{{inputs['QUERY_CONF'].placeholder}}" class="form-control"></textarea>
+        </div>
+      </div>
     </div>
     <div class="row show-grid">
       <div class="col-md-12">
         <nb-card size="small">
           <nb-tabset>
-            <nb-tab tabTitle="{{inputs['QUERY_CONF'].title}}">
-              <span>
-                <textarea [(ngModel)]="bean[inputs['QUERY_CONF'].name]" rows="3" placeholder="{{inputs['QUERY_CONF'].placeholder}}"
-                  class="form-control"></textarea></span>
-            </nb-tab>
             <nb-tab tabTitle="{{inputs['QUERY_CFG_JSON'].title}}">
               <span>
-                <textarea [(ngModel)]="bean[inputs['QUERY_CFG_JSON'].name]" rows="3" placeholder="{{inputs['QUERY_CFG_JSON'].placeholder}}"
-                  class="form-control"></textarea></span>
+                <textarea [(ngModel)]="bean[inputs['QUERY_CFG_JSON'].name]" rows="10"
+                  placeholder="{{inputs['QUERY_CFG_JSON'].placeholder}}" class="form-control"></textarea></span>
             </nb-tab>
+            <nb-tab tabTitle="{{inputs['ROWS_BTN'].title}}">
+              <span>
+                <textarea [(ngModel)]="bean[inputs['ROWS_BTN'].name]" rows="10"
+                  placeholder="{{inputs['ROWS_BTN'].placeholder}}" class="form-control"></textarea></span>
+            </nb-tab>
+            <nb-tab tabTitle="{{inputs['HEARD_BTN'].title}}">
+              <span>
+                <textarea [(ngModel)]="bean[inputs['HEARD_BTN'].name]" rows="10"
+                  placeholder="{{inputs['HEARD_BTN'].placeholder}}" class="form-control"></textarea></span>
+            </nb-tab>
+
           </nb-tabset>
         </nb-card>
       </div>
@@ -52,5 +85,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" *ngFor="let item of buttons" class="btn btn-hero-success" (click)="ButtonClick(item.click)">{{item.name}}</button>
+  <button type="button" *ngFor="let item of buttons" class="btn btn-hero-success"
+    (click)="ButtonClick(item.click)">{{item.name}}</button>
 </div>

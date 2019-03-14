@@ -180,6 +180,7 @@ export class QueryListPage implements OnInit {
     //隐藏，hide=true的字段
     this.settings.columns = this.configJson;
     this.settings.actions["add"] = true;
+    this.settings.pager["perPage"]= 10;
   }
 
   ngOnInit() {
@@ -241,9 +242,6 @@ export class QueryListPage implements OnInit {
         inputs: this.configJson,
         buttons: [{
           name: "确定", click: (x) => {
-
-
-
             return new Promise(async (resolve, reject) => {
               console.log(x);
               if (window.confirm('确定要保存吗？')) {

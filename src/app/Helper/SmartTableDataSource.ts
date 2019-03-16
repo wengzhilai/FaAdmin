@@ -33,6 +33,13 @@ export class SmartTableDataSource extends LocalDataSource {
 
     return this.requestElements()
       .pipe(map(res => {
+        //用于Query查询
+        if(res.Data!=null && res.Data.rows!=null && res.Data.total!=null){
+          res.Msg=res.Data.total;
+          res.DataList=res.Data.rows;
+        }
+
+
         this.lastRequestCount = this.extractTotalFromResponse(res);
         this.data = res.DataList;
         console.log(this.lastRequestCount);
@@ -87,15 +94,15 @@ export class SmartTableDataSource extends LocalDataSource {
       console.log(key)
       console.log(vars)
 
-      if (key == "_limit") postBean.PageSize = parseInt(vars);
-      if (key == "_page") postBean.PageIndex = parseInt(vars);
-      if (key == "_sort") postBean.OrderBy = [{ Key: vars[0], Value: par.get("_order")[0], Type: "" }]; //排序字段
+      if (key == "_limit") postBean.rows = parseInt(vars);
+      if (key == "_page") postBean.page = parseInt(vars);
+      if (key == "_sort") postBean.sort = [{ Key: vars[0], Value: par.get("_order")[0], Type: "" }]; //排序字段
       if (key.indexOf('_like') > 0) {
         let keyName = key.substr(0, key.indexOf('_like'));
         postBean.SearchKey.push({ Key: keyName, Value: par.get(key)[0], Type: "like" }); //排序字段
       }
     })
-    postBean.Key = this.inKey
+    postBean.Code = this.inKey
     return this.httpHelper.PostToObservable(this.conf.endPoint, postBean).pipe(x => {
       return x
     })
@@ -186,7 +193,7 @@ export class SmartTableDataSource extends LocalDataSource {
       columns: {},
       pager: {
         display: true,
-        perPage: 3
+        perPage: 10
       }
     }
   }

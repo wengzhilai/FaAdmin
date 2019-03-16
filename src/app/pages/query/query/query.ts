@@ -6,7 +6,6 @@ import { HttpHelper } from '../../../Helper/HttpHelper';
 import { NbWindowService } from '@nebular/theme';
 import { DtoResultObj } from '../../../Model/DtoRec/DtoResult';
 import { ServerSourceConf } from 'ng2-smart-table/lib/data-source/server/server-source.conf';
-import { QuerySearchModel } from '../../../Model/DtoPost/querySearchModel';
 import { Variables } from '../../../Config/Variables';
 import { Fun } from '../../../Config/Fun';
 import { DtoDo } from '../../../Model/DtoPost/DtoDo';
@@ -23,7 +22,7 @@ export class QueryQueryComponent implements OnInit {
 
   source: LocalDataSource;
   queryEnt: any = {
-    REMARK:"　"
+    REMARK: "　"
   };
   /**
    * 表头按钮
@@ -50,22 +49,22 @@ export class QueryQueryComponent implements OnInit {
     private routerIonfo: ActivatedRoute,
     private HttpHelper: HttpHelper,
     private windowService: NbWindowService,
-    private renderer: Renderer2
   ) {
-    console.log(this.routerIonfo.snapshot)
+  }
+  ngOnInit() {
     this.CheckUrl();
   }
 
+
   /** 用于检测URL地址是否改变，如已经变则刷新该页面 */
   CheckUrl() {
+
     setTimeout(() => {
-      if (window.location.href.indexOf("/pages/query/query/") > -1) {
+      if (window.location.href.indexOf("/pages/query/query?") > -1) {
         if (window.location.href != this.thisUrl) {
           this.thisUrl = window.location.href
-          this.LoadSetting = false;
+          this.code= this.routerIonfo.snapshot.queryParams["code"];
           this.LoadData().then(x => {
-            this.LoadSetting = true;
-
             this.CheckUrl()
           })
         }
@@ -76,9 +75,8 @@ export class QueryQueryComponent implements OnInit {
     }, 1000)
   }
   LoadData() {
-    this.code = this.routerIonfo.snapshot.params["code"];
-
-    return this.HttpHelper.Post("query/Query/GetSingleQuery", {code:this.code}).then((data: DtoResultObj<any>) => {
+    let postEnt={ Key: this.code }
+    return this.HttpHelper.Post("query/GetSingleQuery", postEnt).then((data: DtoResultObj<any>) => {
       if (data.IsSuccess) {
         this.queryEnt = data.Data
         //隐藏，hide=true的字段
@@ -122,17 +120,14 @@ export class QueryQueryComponent implements OnInit {
 
         let smartTableCofnig: ServerSourceConf = new ServerSourceConf();
         smartTableCofnig.endPoint = 'Query/GetBindListData';
-        smartTableCofnig.pagerLimitKey = ""
-        this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig);
+        smartTableCofnig.dataKey = "code"
+        this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig,this.code);
 
       }
-      
+
     }, (x) => {
       console.log(x)
     })
-  }
-  ngOnInit() {
-
   }
 
   userRowSelect(event) {
@@ -153,9 +148,9 @@ export class QueryQueryComponent implements OnInit {
   /**导出Excel */
   onExportXls() {
 
-    let postBean: QuerySearchModel = new QuerySearchModel();
+    let postBean: any = {};
     postBean.Code = this.code
-    this.HttpHelper.Post("Query/DownFile", postBean).then((x:DtoResultObj<any>) => {
+    this.HttpHelper.Post("Query/DownFile", postBean).then((x: DtoResultObj<any>) => {
       console.log(x)
       // Blob转化为链接
       var link = document.createElement("a");
@@ -223,7 +218,7 @@ export class QueryQueryComponent implements OnInit {
    * @param defaultData 默认数据
    * @param readUrl 读取默认数据的API
    */
-  
+
   /**
    * 
    * @param title 标题

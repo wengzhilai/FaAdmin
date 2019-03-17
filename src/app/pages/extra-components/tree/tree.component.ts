@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ITreeOptions } from 'angular-tree-component';
 
 @Component({
   selector: 'ngx-tree',
@@ -7,27 +8,31 @@ import { Component } from '@angular/core';
 })
 export class TreeComponent {
 
-  nodes = [{
-    name: 'Programming languages by programming paradigm',
-    children: [{
-      name: 'Object-oriented programming',
-      children: [{
-        name: 'Java',
-      }, {
-        name: 'C++',
-      }, {
-        name: 'C#',
-      }],
-    }, {
-      name: 'Prototype-based programming',
-      children: [{
-        name: 'JavaScript',
-      }, {
-        name: 'CoffeeScript',
-      }, {
-        name: 'Lua',
-      }],
-    }],
-  }];
-
+  nodes = [
+    {
+      id: 1,
+      name: 'root1',
+      children: [
+        { id: 2, name: 'child1' },
+        { id: 3, name: 'child2' }
+      ]
+    },
+    {
+      id: 4,
+      name: 'root2',
+      children: [
+        { id: 5, name: 'child2.1' },
+        {
+          id: 6,
+          name: 'child2.2',
+          children: [
+            { id: 7, name: 'subsub' }
+          ]
+        }
+      ]
+    }
+  ];
+  options: ITreeOptions = {
+    useCheckbox: true
+  };
 }

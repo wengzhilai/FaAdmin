@@ -27,7 +27,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
         title: Fun.LanguageStr("Menu.Model"),
         icon: 'ion-android-archive',
         link: '/pages/query/query',
-        queryParams:{code:"model"}
+        queryParams:{code:"module"}
       },
       {
         title: Fun.LanguageStr("Menu.Query"),

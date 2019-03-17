@@ -64,7 +64,7 @@ export class HttpHelper {
             errObj.Msg = "登录超时,请重新登录";
 
           } else {
-            errObj.Msg = error.error.Msg;
+            errObj.Msg = error.message;
           }
           resolve(errObj);
         })

@@ -9,8 +9,8 @@ import { ServerSourceConf } from 'ng2-smart-table/lib/data-source/server/server-
 import { Variables } from '../../../Config/Variables';
 import { Fun } from '../../../Config/Fun';
 import { DtoDo } from '../../../Model/DtoPost/DtoDo';
-import { QueryEditComponent } from '../../../components/query-edit/query-edit.component';
 import { DtoSaveObj } from '../../../Model/DtoPost/DtoSaveObj';
+import { EditModelComponent } from '../../../components/edit-model/edit-model.component';
 
 @Component({
   selector: 'query',
@@ -19,7 +19,7 @@ import { DtoSaveObj } from '../../../Model/DtoPost/DtoSaveObj';
 })
 export class QueryQueryComponent implements OnInit {
   @ViewChild('samrtTable', { read: ViewContainerRef }) container: ViewContainerRef;
-
+  @ViewChild('btnHead') template;
   source: LocalDataSource;
   queryEnt: any = {
     REMARK: "　"
@@ -42,6 +42,9 @@ export class QueryQueryComponent implements OnInit {
    * 读取配置文件的设置
    */
   configJson: any = {}
+  /** 显示的列数 */
+  clmNum: number = 0
+
   selectedArr = []
   code: any;
   thisUrl: string = ""
@@ -49,6 +52,7 @@ export class QueryQueryComponent implements OnInit {
     private routerIonfo: ActivatedRoute,
     private HttpHelper: HttpHelper,
     private windowService: NbWindowService,
+    private renderer: Renderer2
   ) {
   }
   ngOnInit() {
@@ -63,7 +67,7 @@ export class QueryQueryComponent implements OnInit {
       if (window.location.href.indexOf("/pages/query/query?") > -1) {
         if (window.location.href != this.thisUrl) {
           this.thisUrl = window.location.href
-          this.code= this.routerIonfo.snapshot.queryParams["code"];
+          this.code = this.routerIonfo.snapshot.queryParams["code"];
           this.LoadData().then(x => {
             this.CheckUrl()
           })
@@ -75,7 +79,7 @@ export class QueryQueryComponent implements OnInit {
     }, 1000)
   }
   LoadData() {
-    let postEnt={ Key: this.code }
+    let postEnt = { Key: this.code }
     return this.HttpHelper.Post("query/GetSingleQuery", postEnt).then((data: DtoResultObj<any>) => {
       if (data.IsSuccess) {
         this.queryEnt = data.Data
@@ -84,6 +88,11 @@ export class QueryQueryComponent implements OnInit {
         //设置列配置
         eval("t=" + this.queryEnt.QUERY_CFG_JSON)
         this.configJson = t
+        for (const key in this.configJson) {
+          this.clmNum++;
+        }
+        this.clmNum += 2;
+
         //设置表头按钮配置
         eval("t=" + this.queryEnt.HEARD_BTN)
         this.headBtnSet = t
@@ -121,13 +130,22 @@ export class QueryQueryComponent implements OnInit {
         let smartTableCofnig: ServerSourceConf = new ServerSourceConf();
         smartTableCofnig.endPoint = 'Query/GetBindListData';
         smartTableCofnig.dataKey = "code"
-        this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig,this.code);
+        this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig, this.code);
+
+        this.AddHeadBtn()
 
       }
 
     }, (x) => {
       console.log(x)
     })
+  }
+
+  AddHeadBtn() {
+    setTimeout(() => {
+      var table = this.container.element.nativeElement.children[0];
+      this.renderer.appendChild(table, this.template.nativeElement)
+    }, 100);
   }
 
   userRowSelect(event) {
@@ -144,21 +162,87 @@ export class QueryQueryComponent implements OnInit {
       eval(event)
     }
   }
+  // Add(){
+  //   this.OpenEditWindow("添加模块", {})
+  // }
+  Add(apiUrl, openModal: any = null, defaultData = null, readUrl = null): void {
+    // console.log(apiUrl)
+    // console.log(defaultData)
+    // console.log(readUrl)
+    // return;
+    this.GetBean(defaultData, readUrl).then(x => {
+      if (x == null && !x.IsSuccess) {
+        console.log("获取取初始值失败")
+        return
+      }
+      console.log("获取取初始值")
+      console.log(x.Data)
+
+      let title = "修改"
+      if (defaultData != null) {
+        title = "添加"
+      }
+      this.windowService.open(EditModelComponent, {
+        windowClass: "DivWindow",
+        title: title,
+        context: {
+          bean: defaultData,
+          inputs: this.configJson,
+          buttons: [{
+            name: "确定", click: (x) => {
+              return new Promise(async (resolve, reject) => {
+                console.log(x);
+                if (window.confirm('确定要保存吗？')) {
+                  let postClass: DtoSaveObj<any> = new DtoSaveObj<any>();
+                  postClass.Data = x;
+                  postClass.SaveFieldList = Fun.GetBeanNameStr(x);
+                  await Fun.ShowLoading();
+
+                  this.HttpHelper.Post(apiUrl, postClass).then((data: DtoResultObj<any>) => {
+                    Fun.HideLoading();
+                    console.log(data)
+                    if (data.IsSuccess) {
+                      this.source.refresh()
+                    }
+                    else {
+                      Fun.Hint(data.Msg)
+                    }
+                    resolve(data);
+                  });
+                } else {
+                }
+              });
+            }
+          }]
+        }
+      });
+
+    })
+
+  }
 
   /**导出Excel */
-  onExportXls() {
+  async onExportXls() {
 
     let postBean: any = {};
     postBean.Code = this.code
+    await Fun.ShowLoading();
     this.HttpHelper.Post("Query/DownFile", postBean).then((x: DtoResultObj<any>) => {
       console.log(x)
-      // Blob转化为链接
-      var link = document.createElement("a");
-      link.setAttribute("href", Variables.ImgUrl + x.Msg);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      Fun.HideLoading();
+      if (x != null && x.IsSuccess) {
+        // Blob转化为链接
+        var link = document.createElement("a");
+        link.setAttribute("href", Variables.ImgUrl + x.Msg);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      else{
+        Fun.Hint(x.Msg)
+      }
+
     })
     // console.log(this.source.getFilter());
     // console.log(this.source.getSort());
@@ -180,7 +264,7 @@ export class QueryQueryComponent implements OnInit {
 
   onSave(nowThis, event) {
     if (this.rowBtnSet.length > 0) {
-      // this.Add(this.rowBtnSet[0].apiUrl, this.rowBtnSet[0].openModal, event.data, this.rowBtnSet[0].readUrl)
+      this.Add(this.rowBtnSet[0].apiUrl, this.rowBtnSet[0].openModal, event.data, this.rowBtnSet[0].readUrl)
     }
   }
   /**
@@ -196,8 +280,12 @@ export class QueryQueryComponent implements OnInit {
       postClass.Key = Key;
       this.HttpHelper.Post(apiUrl, postClass).then((data: DtoResultObj<any>) => {
         Fun.HideLoading()
+        console.log(data)
         if (data.IsSuccess) {
           this.source.refresh()
+        }
+        else{
+          Fun.Hint(data.Msg)
         }
       });
     }
@@ -225,7 +313,7 @@ export class QueryQueryComponent implements OnInit {
    * @param data 修改数据
    */
   OpenEditWindow(title: string, data: any) {
-    this.windowService.open(QueryEditComponent, {
+    this.windowService.open(EditModelComponent, {
       windowClass: "DivWindow",
       title: title,
       context: {

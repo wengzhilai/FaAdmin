@@ -22,7 +22,7 @@ export class QueryListPage implements OnInit {
   /** 静态方法，获取默认配置 */
   settings: any = SmartTableDataSource.getDefaultSetting();
   configJson: any = {}
-
+  /** 显示的列数 */
   clmNum: number = 0
   constructor(
     private HttpHelper: HttpHelper,

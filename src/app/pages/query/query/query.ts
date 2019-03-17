@@ -165,12 +165,14 @@ export class QueryQueryComponent implements OnInit {
   // Add(){
   //   this.OpenEditWindow("添加模块", {})
   // }
-  Add(apiUrl, openModal: any = null, defaultData = null, readUrl = null): void {
+  async Add(apiUrl, openModal: any = null, defaultData = null, readUrl = null) {
     // console.log(apiUrl)
     // console.log(defaultData)
     // console.log(readUrl)
     // return;
+    await Fun.ShowLoading();
     this.GetBean(defaultData, readUrl).then(x => {
+      Fun.HideLoading();
       if (x == null && !x.IsSuccess) {
         console.log("获取取初始值失败")
         return
@@ -224,26 +226,35 @@ export class QueryQueryComponent implements OnInit {
   /**导出Excel */
   async onExportXls() {
 
-    let postBean: any = {};
-    postBean.Code = this.code
-    await Fun.ShowLoading();
-    this.HttpHelper.Post("Query/DownFile", postBean).then((x: DtoResultObj<any>) => {
-      console.log(x)
-      Fun.HideLoading();
-      if (x != null && x.IsSuccess) {
-        // Blob转化为链接
-        var link = document.createElement("a");
-        link.setAttribute("href", Variables.ImgUrl + x.Msg);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-      else{
-        Fun.Hint(x.Msg)
-      }
 
-    })
+    var link = document.createElement("a");
+    link.setAttribute("href", Variables.Api + "Query/DownFile?code=" + this.code);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // let postBean: any = {};
+    // postBean.Code = this.code
+    // await Fun.ShowLoading();
+
+    // this.HttpHelper.Post("Query/DownFile", postBean).then((x: DtoResultObj<any>) => {
+    //   console.log(x)
+    //   Fun.HideLoading();
+    //   if (x != null && x.IsSuccess) {
+    //     // Blob转化为链接
+    //     var link = document.createElement("a");
+    //     link.setAttribute("href", Variables.ImgUrl + x.Msg);
+    //     link.style.visibility = 'hidden';
+    //     document.body.appendChild(link);
+    //     link.click();
+    //     document.body.removeChild(link);
+    //   }
+    //   else{
+    //     Fun.Hint(x.Msg)
+    //   }
+
+    // })
     // console.log(this.source.getFilter());
     // console.log(this.source.getSort());
   }
@@ -284,7 +295,7 @@ export class QueryQueryComponent implements OnInit {
         if (data.IsSuccess) {
           this.source.refresh()
         }
-        else{
+        else {
           Fun.Hint(data.Msg)
         }
       });

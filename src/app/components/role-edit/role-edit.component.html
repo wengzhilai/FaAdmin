@@ -1,0 +1,35 @@
+<div>
+  <ul *ngIf="messageList && messageList.length">
+    <li *ngFor="let item of messageList">{{item}}</li>
+  </ul>
+  <div [ngStyle]="{'height':screenheight+'px','overflow-y':'auto'}">
+    <div class="row show-grid">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>{{inputs['NAME'].title}}</label>
+          <input [(ngModel)]="bean[inputs['NAME'].name]" type="text" class="form-control"
+            placeholder="{{inputs['NAME'].placeholder}}">
+        </div>
+      </div>
+    </div>
+    <div class="row show-grid">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>{{inputs['REMARK'].title}}</label>
+          <textarea [(ngModel)]="bean[inputs['REMARK'].name]" rows="4"
+            placeholder="{{inputs['REMARK'].placeholder}}" class="form-control"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row show-grid">
+      <div class="col-md-12">
+        {{bean["moduleIdStr"]}}
+        <tree-root #tree [nodes]="nodes" (unselect)="onSelect($event)" (select)="onSelect($event)" [options]="options"></tree-root>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" *ngFor="let item of buttons" class="btn btn-hero-success"
+    (click)="ButtonClick(item.click)">{{item.name}}</button>
+</div>

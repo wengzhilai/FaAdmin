@@ -11,6 +11,8 @@ import { Fun } from '../../../Config/Fun';
 import { DtoDo } from '../../../Model/DtoPost/DtoDo';
 import { DtoSaveObj } from '../../../Model/DtoPost/DtoSaveObj';
 import { EditModelComponent } from '../../../components/edit-model/edit-model.component';
+import { RoleEditComponent } from '../../../components/role-edit/role-edit.component';
+import { QueryEditComponent } from '../../../components/query-edit/query-edit.component';
 
 @Component({
   selector: 'query',
@@ -184,7 +186,7 @@ export class QueryQueryComponent implements OnInit {
       if (defaultData != null) {
         title = "添加"
       }
-      this.windowService.open(EditModelComponent, {
+      this.windowService.open(this.GetComponents(openModal), {
         windowClass: "DivWindow",
         title: title,
         context: {
@@ -234,29 +236,6 @@ export class QueryQueryComponent implements OnInit {
     link.click();
     document.body.removeChild(link);
 
-    // let postBean: any = {};
-    // postBean.Code = this.code
-    // await Fun.ShowLoading();
-
-    // this.HttpHelper.Post("Query/DownFile", postBean).then((x: DtoResultObj<any>) => {
-    //   console.log(x)
-    //   Fun.HideLoading();
-    //   if (x != null && x.IsSuccess) {
-    //     // Blob转化为链接
-    //     var link = document.createElement("a");
-    //     link.setAttribute("href", Variables.ImgUrl + x.Msg);
-    //     link.style.visibility = 'hidden';
-    //     document.body.appendChild(link);
-    //     link.click();
-    //     document.body.removeChild(link);
-    //   }
-    //   else{
-    //     Fun.Hint(x.Msg)
-    //   }
-
-    // })
-    // console.log(this.source.getFilter());
-    // console.log(this.source.getSort());
   }
 
 
@@ -310,55 +289,7 @@ export class QueryQueryComponent implements OnInit {
     this.DeleteApi(apiUrl, allKeyList.join(","), confirmTip)
   }
 
-  /**
-   * 
-   * @param apiUrl 保存API
-   * @param openModal 弹出对话框的组件
-   * @param defaultData 默认数据
-   * @param readUrl 读取默认数据的API
-   */
 
-  /**
-   * 
-   * @param title 标题
-   * @param data 修改数据
-   */
-  OpenEditWindow(title: string, data: any) {
-    this.windowService.open(EditModelComponent, {
-      windowClass: "DivWindow",
-      title: title,
-      context: {
-        bean: data,
-        inputs: this.configJson,
-        buttons: [{
-          name: "确定", click: (x) => {
-            return new Promise(async (resolve, reject) => {
-              console.log(x);
-              if (window.confirm('确定要保存吗？')) {
-                let postClass: DtoSaveObj<any> = new DtoSaveObj<any>();
-                postClass.Data = x;
-                postClass.SaveFieldList = Fun.GetBeanNameStr(x);
-                await Fun.ShowLoading();
-
-                this.HttpHelper.Post("Query/Save", postClass).then((data: DtoResultObj<any>) => {
-                  Fun.HideLoading();
-                  console.log(data)
-                  if (data.IsSuccess) {
-                    this.source.refresh()
-                  }
-                  else {
-                    Fun.Hint(data.Msg)
-                  }
-                  resolve(data);
-                });
-              } else {
-              }
-            });
-          }
-        }]
-      }
-    });
-  }
   /**
    * 获取初始值
    * @param defaultData 行选择的值
@@ -377,5 +308,17 @@ export class QueryQueryComponent implements OnInit {
 
   ReLoad() {
     this.source.refresh()
+  }
+
+
+  GetComponents(name){
+    switch (name) {
+      case "RoleEditComponent":
+        return RoleEditComponent
+      case "QueryEditComponent":
+        return QueryEditComponent
+      default:
+        return EditModelComponent
+    }
   }
 }

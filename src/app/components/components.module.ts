@@ -7,10 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '../pipes/pipes.module';
 import { QueryEditComponent } from './query-edit/query-edit.component';
 import { ThemeModule } from '../@theme/theme.module';
+import { RoleEditComponent } from './role-edit/role-edit.component';
+import { TreeModule } from 'angular-tree-component';
+
+
 
 @NgModule({
-  entryComponents:[EditModelComponent,QueryEditComponent],
-  declarations: [EditModelComponent, QueryEditComponent],
+  entryComponents:[EditModelComponent,QueryEditComponent,RoleEditComponent],
+  declarations: [EditModelComponent, QueryEditComponent, RoleEditComponent],
   imports: [
     IonicModule,
     TranslateModule,
@@ -19,10 +23,12 @@ import { ThemeModule } from '../@theme/theme.module';
     CommonModule,
     PipesModule,
     ThemeModule,
+    TreeModule,
   ],
   exports:[
     EditModelComponent,
-    QueryEditComponent
+    QueryEditComponent,
+    RoleEditComponent,
   ]
 })
 export class ComponentsModule { }

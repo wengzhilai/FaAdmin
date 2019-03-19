@@ -22,7 +22,7 @@ export class Variables {
   static ImgUrl:string = 'http://127.0.0.1:5000/';
   // static Api:string = 'http://dotnetapi.wjbjp.cn/Api/';
   // static ImgUrl:string = 'http://dotnetapi.wjbjp.cn/';
-  
+   
   /**
    * 图片地址
    */

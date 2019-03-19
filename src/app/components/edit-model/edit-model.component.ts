@@ -43,4 +43,14 @@ export class EditModelComponent implements OnInit {
       })
   }
 
+  LoadSelectOption(api){
+    return new Promise((resolve, reject) => {
+      let result=[{
+        value:"1",
+        title:"aa"
+      }]
+      resolve(result);
+    });
+  }
+
 }

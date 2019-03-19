@@ -47,7 +47,6 @@ export class PagesComponent implements OnInit {
 
 
   JsonToMenuItemJson(inJson: any[]) {
-    console.log(inJson);
     let reArr: NbMenuItem[] = []
     inJson.forEach(element => {
       reArr.unshift({

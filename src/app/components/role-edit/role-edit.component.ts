@@ -26,9 +26,9 @@ export class RoleEditComponent implements OnInit {
   /** 配置 */
   options: ITreeOptions = {
     useCheckbox: true,
-    childrenField: "child",
-    displayField: "V",
-    idField: "K",
+    childrenField: "Children",
+    displayField: "NAME",
+    idField: "ID",
 
   };
   moduleIdStr;
@@ -39,10 +39,11 @@ export class RoleEditComponent implements OnInit {
     public httpHelper: HttpHelper,
   ) {
     console.log(this.windowRef.config.context)
-    // this.tree.treeModel.(select)="onSelect($event)"
   }
 
   ngOnInit() {
+    console.log(this.bean);
+
     for (const key in this.inputs) {
       let element = this.inputs[key];
       element["name"] = key
@@ -55,25 +56,31 @@ export class RoleEditComponent implements OnInit {
 
   ButtonClick(even) {
     even(this.bean)
-      .then(x => {
+      .then((x: DtoResultObj<any>) => {
         console.log(x)
-        this.windowRef.close();
+        if (x.IsSuccess) {
+          this.windowRef.close();
+        }
       })
   }
 
   LoadModule() {
     this.httpHelper.Post("Module/GetUserMenu", null).then((x: DtoResultObj<any>) => {
       this.nodes = x.DataList;
+      console.log(this.bean)
+      this.bean["moduleIdStr"].forEach(element => {
+        this.tree.treeModel.selectedLeafNodeIds[element] = true
+      });
     });
   }
   onSelect(obj) {
-    var tmp=this.tree.treeModel.selectedLeafNodeIds;
-    let v=[]
+    var tmp = this.tree.treeModel.selectedLeafNodeIds;
+    let v = []
     for (const key in tmp) {
-      if(tmp[key]){
+      if (tmp[key]) {
         v.push(key);
       }
     }
-    this.bean["moduleIdStr"]=v;
+    this.bean["moduleIdStr"] = v;
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NbWindowRef } from '@nebular/theme';
+import { DtoResultObj } from '../../Model/DtoRec/DtoResult';
 
 @Component({
   selector: 'ngx-edit-model',
@@ -34,10 +35,12 @@ export class EditModelComponent implements OnInit {
   }
   ButtonClick(even) {
     even(this.bean)
-    .then(x => {
-      console.log(x)
-      this.windowRef.close();
-    })
+      .then((x: DtoResultObj<any>) => {
+        console.log(x)
+        if (x.IsSuccess) {
+          this.windowRef.close();
+        }
+      })
   }
 
 }

@@ -24,7 +24,7 @@
     <div class="row show-grid">
       <div class="col-md-12">
         {{bean["moduleIdStr"]}}
-        <tree-root #tree [nodes]="nodes" (unselect)="onSelect($event)" (select)="onSelect($event)" [options]="options"></tree-root>
+        <tree-root #tree [nodes]="nodes" (deselect)="onSelect($event)" (select)="onSelect($event)" [options]="options"></tree-root>
       </div>
     </div>
   </div>

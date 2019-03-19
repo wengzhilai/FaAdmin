@@ -3,42 +3,6 @@ import { Fun } from '../Config/Fun';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: Fun.LanguageStr("Menu.Home"),
-    icon: 'nb-e-commerce',
-    link: '/pages/dashboard',
-  },
-  {
-    title: Fun.LanguageStr("Menu.System"),
-    icon: 'nb-gear',
-    children: [
-      {
-        title: Fun.LanguageStr("Menu.Role"),
-        icon: 'ion-person-stalker',
-        link: '/pages/query/query',
-        queryParams:{code:"role"}
-      },
-      {
-        title: Fun.LanguageStr("Menu.User"),
-        icon: 'ion-person',
-        link: '/pages/query/query',
-        queryParams:{code:"user"}
-      },
-      {
-        title: Fun.LanguageStr("Menu.Model"),
-        icon: 'ion-android-archive',
-        link: '/pages/query/query',
-        queryParams:{code:"module"}
-      },
-      {
-        title: Fun.LanguageStr("Menu.Query"),
-        icon: 'ion-android-archive',
-        link: '/pages/query/list',
-      }
-    ]
-  },
-
-
-  {
     title: 'IoT Dashboard',
     icon: 'nb-home',
     link: '/pages/iot-dashboard',

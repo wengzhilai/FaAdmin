@@ -34,7 +34,7 @@ export class QueryQueryComponent implements OnInit {
    * 行按钮
    */
   rowBtnSet: Array<any> = [];
-
+  //用于加载设置，如果为 false，则不显示Table,
   LoadSetting: boolean = false;
   /**
    * 用于绑定table的设置
@@ -81,9 +81,14 @@ export class QueryQueryComponent implements OnInit {
     }, 1000)
   }
   LoadData() {
+    //隐藏table，在显示的时候，才会刷新列数据
+    this.LoadSetting = false;
     let postEnt = { Key: this.code }
     return this.HttpHelper.Post("query/GetSingleQuery", postEnt).then((data: DtoResultObj<any>) => {
       if (data.IsSuccess) {
+        //显示table
+        this.LoadSetting = true;
+
         this.queryEnt = data.Data
         //隐藏，hide=true的字段
         let t: any = {}
@@ -168,16 +173,18 @@ export class QueryQueryComponent implements OnInit {
   //   this.OpenEditWindow("添加模块", {})
   // }
   async Add(apiUrl, openModal: any = null, defaultData = null, readUrl = null) {
-    // console.log(apiUrl)
-    // console.log(defaultData)
-    // console.log(readUrl)
+    console.log(apiUrl)
+    console.log(defaultData)
+    console.log(readUrl)
     // return;
     await Fun.ShowLoading();
-    this.GetBean(defaultData, readUrl).then(x => {
+    this.GetBean(defaultData, readUrl).then((x: DtoResultObj<any>) => {
       Fun.HideLoading();
-      if (x == null && !x.IsSuccess) {
+      console.log(x);
+      if (x == null || !x.IsSuccess) {
         console.log("获取取初始值失败")
-        return
+        //如果获取取初始值失败，则用列表数据
+        x.Data = defaultData;
       }
       console.log("获取取初始值")
       console.log(x.Data)
@@ -190,7 +197,7 @@ export class QueryQueryComponent implements OnInit {
         windowClass: "DivWindow",
         title: title,
         context: {
-          bean: defaultData,
+          bean: x.Data,
           inputs: this.configJson,
           buttons: [{
             name: "确定", click: (x) => {
@@ -311,7 +318,7 @@ export class QueryQueryComponent implements OnInit {
   }
 
 
-  GetComponents(name){
+  GetComponents(name) {
     switch (name) {
       case "RoleEditComponent":
         return RoleEditComponent

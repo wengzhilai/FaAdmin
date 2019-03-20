@@ -1,0 +1,4 @@
+<select [(ngModel)]="myModel" class="form-control">
+  <option *ngFor="let opt of ListData" value="{{opt.ID}}">{{opt.NAME}}
+  </option>
+</select>

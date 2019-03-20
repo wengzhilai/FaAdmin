@@ -9,12 +9,13 @@ import { QueryEditComponent } from './query-edit/query-edit.component';
 import { ThemeModule } from '../@theme/theme.module';
 import { RoleEditComponent } from './role-edit/role-edit.component';
 import { TreeModule } from 'angular-tree-component';
+import { InputSelectComponent } from './input-select/input-select.component';
 
 
 
 @NgModule({
   entryComponents:[EditModelComponent,QueryEditComponent,RoleEditComponent],
-  declarations: [EditModelComponent, QueryEditComponent, RoleEditComponent],
+  declarations: [EditModelComponent, QueryEditComponent, RoleEditComponent, InputSelectComponent],
   imports: [
     IonicModule,
     TranslateModule,

@@ -18,7 +18,7 @@ export class AuthLoginPage {
 
     rememberMe = false;
     userForm: FormGroup;
-  
+    promise: Promise<string>;
     constructor(
       protected router: Router,
       public translate: TranslateService,
@@ -32,8 +32,17 @@ export class AuthLoginPage {
         loginName: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
         password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]]
       });
-  
+      this.promise=this.getPromise('aaa');
     }
+
+    getPromise(obj): Promise<string> {
+      console.log(11)
+      return new Promise((resolve, reject) => {
+          setTimeout(() => {
+              resolve('Promise with AsyncPipe complete!'+obj);
+          }, 2000);
+      });
+  }
   
     async submit() {
   

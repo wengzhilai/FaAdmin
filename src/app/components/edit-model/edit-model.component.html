@@ -18,10 +18,8 @@
                 <option *ngFor="let opt of item.editor.config.completer.data" value="{{opt.value}}">{{opt.title}}
                 </option>
               </select>
-              <select *ngSwitchCase="'listAsyn'" id="input{{i}}" [(ngModel)]="bean[item.name]" class="form-control">
-                <option *ngFor="let opt of (LoadSelectOption(item.editor.config.api) | async)" value="{{opt.value}}">{{opt.title}}
-                </option>
-              </select>
+              <input-select *ngSwitchCase="'listAsyn'" id="input{{i}}" [(myModel)]="bean[item.name]" [PostEnt]="item.editor.config.postEnt" [ApiUrl]="item.editor.config.api">
+              </input-select>
               <textarea *ngSwitchCase="'textarea'" id="input{{i}}" [(ngModel)]="bean[item.name]" rows="3"
                 placeholder="{{item.placeholder}}" class="form-control"></textarea>
 

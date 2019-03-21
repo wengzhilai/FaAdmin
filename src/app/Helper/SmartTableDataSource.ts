@@ -92,16 +92,22 @@ export class SmartTableDataSource extends LocalDataSource {
     let par: URLSearchParams = allPar.params as URLSearchParams
     console.log(par)
     let postBean: any = {};
+
+    
+    postBean.sort=par.get("_sort");
+    postBean.order=par.get("_order");
+    postBean.rows=par.get("_limit");
+    postBean.page=par.get("_page");
     par.forEach((vars, key) => {
       console.log(key)
       console.log(vars)
-
-      if (key == "_limit") postBean.rows = parseInt(vars);
-      if (key == "_page") postBean.page = parseInt(vars);
-      if (key == "_sort") postBean.sort = [{ Key: vars[0], Value: par.get("_order")[0], Type: "" }]; //排序字段
+      // if (key == "_sort") postBean.sort = [{ Key: vars[0], Value: par.get("_order")[0], Type: "" }]; //排序字段
       if (key.indexOf('_like') > 0) {
         let keyName = key.substr(0, key.indexOf('_like'));
-        postBean.SearchKey.push({ Key: keyName, Value: par.get(key)[0], Type: "like" }); //排序字段
+        if(postBean.SearchKey==null){
+          postBean.SearchKey=[]
+        }
+        postBean.SearchKey.push({ Key: keyName, Value: par.get(key), Type: "like" }); //排序字段
       }
     })
     postBean.Code = this.inKey
@@ -173,8 +179,6 @@ export class SmartTableDataSource extends LocalDataSource {
     return {
       noDataMessage: "无数据",
       mode: "external",
-      selectMode: "multi",
-      hideSubHeader: true, //隐藏默认的过滤行
       add: {
         addButtonContent: '<i class="nb-plus"></i>',
         createButtonContent: '<i class="nb-checkmark"></i>',
@@ -190,6 +194,8 @@ export class SmartTableDataSource extends LocalDataSource {
       },
       actions: {
         columnTitle: "操作",
+        add:true,
+        position:'left'
         // position:"right"
       },
       columns: {},

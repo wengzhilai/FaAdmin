@@ -37,10 +37,12 @@ export class QueryListPage implements OnInit {
       "ID": {
         "title": '查询ID',
         "type": 'number',
+        "filter": false,
         "editable": false
       },
       "NAME": {
         "title": '查询名',
+        "filter": true,
         "type": 'string'
       },
       "CODE": {
@@ -180,7 +182,7 @@ export class QueryListPage implements OnInit {
     //隐藏，hide=true的字段
     this.settings.columns = this.configJson;
     this.settings.actions["add"] = true;
-    this.settings.pager["perPage"]= 10;
+    this.settings.pager["perPage"] = 10;
   }
 
   ngOnInit() {

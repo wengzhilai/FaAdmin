@@ -1,8 +1,7 @@
 import { CookiesHelper } from "./CookiesHelper";
 export class GlobalHelper {
 
-	/**检测是否有请求正在进行 */
-	public static IsRunHttpQuest:boolean=false;
+
 
 	public static SetToken(token: string) {
 		console.log("保存Token：" + token)

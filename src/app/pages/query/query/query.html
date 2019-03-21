@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card style="overflow-x:auto;overflow-y:hidden">
   <nb-card-header>
     {{queryEnt.NAME}}
   </nb-card-header>
@@ -15,7 +15,6 @@
     </div>
 
     <tr #btnHead>
-
       <td [attr.colspan]="clmNum">
           <div style="float: left;margin-right: 5px;" *ngFor="let item of headBtnSet">
             <button type="button" class="btn btn-icon btn-primary btn-xs" (click)="HeadBtnClick(this,item.click)">
@@ -25,8 +24,8 @@
           </div>
       </td>
     </tr>
-    <ng2-smart-table #samrtTable [settings]="settings" [source]="source" (delete)="onDelete($event)"
-      (edit)="onSave(this,$event)" (userRowSelect)="userRowSelect($event)" *ngIf="LoadSetting">
+    <ng2-smart-table style="margin: 5px" #samrtTable [settings]="settings" [source]="source" (delete)="onDelete($event)"
+      (edit)="onSave(this,$event)" (create)="onSave(this,$event)" (userRowSelect)="userRowSelect($event)" *ngIf="LoadSetting">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>

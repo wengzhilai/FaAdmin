@@ -32,11 +32,10 @@ export class AuthLoginPage {
         loginName: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
         password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]]
       });
-      this.promise=this.getPromise('aaa');
+      // this.promise=this.getPromise('aaa');
     }
 
     getPromise(obj): Promise<string> {
-      console.log(11)
       return new Promise((resolve, reject) => {
           setTimeout(() => {
               resolve('Promise with AsyncPipe complete!'+obj);

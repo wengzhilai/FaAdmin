@@ -15,6 +15,13 @@ export class HttpHelper {
   ) {
   }
   Post(apiName, postBean: any) {
+    if(GlobalHelper.IsRunHttpQuest){
+      console.log("数据正在请求，1秒后重试:"+apiName)
+      setTimeout(() => {
+        this.Post(apiName,postBean)
+      }, 1000);
+    }
+    GlobalHelper.IsRunHttpQuest=true;
     console.group("开始请求[" + apiName + "]参数：");
     console.time("Post时间");
     let httpOptions = {
@@ -41,10 +48,13 @@ export class HttpHelper {
         .post(Variables.Api + apiName, postBean, httpOptions)
         .toPromise()
         .then((result: any) => {
+          
           console.log("返回结果：");
           console.log(result);
           console.timeEnd("Post时间");
           console.groupEnd();
+          GlobalHelper.IsRunHttpQuest=false;
+
           resolve(result);
           // return result;
 
@@ -57,6 +67,8 @@ export class HttpHelper {
           console.error(error)
           console.timeEnd("Post时间");
           console.groupEnd();
+          GlobalHelper.IsRunHttpQuest=false;
+
           var errObj: DtoResultObj<any> = new DtoResultObj<any>();
           errObj.IsSuccess = false;
 
@@ -71,6 +83,8 @@ export class HttpHelper {
         .catch((error: any) => {
           console.error('请求失败');
           console.error(error);
+          GlobalHelper.IsRunHttpQuest=false;
+
           var errObj: DtoResultObj<any> = new DtoResultObj<any>();
           errObj.IsSuccess = false;
           errObj.Msg = error.message;
@@ -102,14 +116,12 @@ export class HttpHelper {
     console.log(postBean)
 
     return Observable.create((observer) => {
-      Fun.ShowLoading();
       this.http.post(Variables.Api + apiName, postBean, httpOptions).subscribe({
         next: (res:DtoResultObj<any>) => {
           console.log("返回结果：");
           console.log(res)
           console.timeEnd("Post时间");
           console.groupEnd();
-          Fun.HideLoading();
           observer.next(res);
           observer.complete();
         },

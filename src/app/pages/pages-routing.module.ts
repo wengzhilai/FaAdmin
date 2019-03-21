@@ -19,6 +19,14 @@ const routes: Routes = [{
       loadChildren: './query/query.module#QueryModule',
     },
     {
+      path: 'quartztask',
+      loadChildren: './quartz-task/quartz-task.module#QuartzTaskModule',
+    },
+    {
+      path: 'task',
+      loadChildren: './task/task.module#TaskModule',
+    },
+    {
       path: 'dashboard',
       component: ECommerceComponent,
     }, {

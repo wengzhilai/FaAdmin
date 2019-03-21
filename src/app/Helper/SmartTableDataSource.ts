@@ -6,6 +6,7 @@ import { HttpHelper } from "./HttpHelper";
 import { RequestOptionsArgs } from "@angular/http";
 import { map } from 'rxjs/operators';
 import { DtoResultObj } from "../Model/DtoRec/DtoResult";
+import { Fun } from "../Config/Fun";
 
 export class SmartTableDataSource extends LocalDataSource {
   protected conf: ServerSourceConf;
@@ -29,8 +30,8 @@ export class SmartTableDataSource extends LocalDataSource {
     return this.lastRequestCount;
   }
 
-  getElements(): Promise<any> {
-
+  async getElements(): Promise<any> {
+    await Fun.ShowLoading();
     return this.requestElements()
       .pipe(map(res => {
         //用于Query查询
@@ -44,6 +45,7 @@ export class SmartTableDataSource extends LocalDataSource {
         this.data = res.DataList;
         console.log(this.lastRequestCount);
         console.log(this.data);
+        Fun.HideLoading();
         return this.data;
       })).toPromise();
   }

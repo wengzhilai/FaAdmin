@@ -22,7 +22,7 @@ import { QueryEditComponent } from '../../../components/query-edit/query-edit.co
 export class QueryQueryComponent implements OnInit {
   @ViewChild('samrtTable', { read: ViewContainerRef }) container: ViewContainerRef;
   @ViewChild('btnHead') template;
-  source: LocalDataSource;
+  source: any;
   queryEnt: any = {
     REMARK: "　"
   };
@@ -137,7 +137,10 @@ export class QueryQueryComponent implements OnInit {
         let smartTableCofnig: ServerSourceConf = new ServerSourceConf();
         smartTableCofnig.endPoint = 'Query/GetBindListData';
         smartTableCofnig.dataKey = "code"
+
+        
         this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig, this.code);
+        this.source.setting=this.settings;
 
         this.AddHeadBtn()
 

@@ -4,6 +4,7 @@ import { MENU_ITEMS } from './pages-menu';
 import { HttpHelper } from '../Helper/HttpHelper';
 import { DtoResultObj } from '../Model/DtoRec/DtoResult';
 import { NbMenuItem } from '@nebular/theme';
+import { Fun } from '../Config/Fun';
 
 @Component({
   selector: 'ngx-pages',
@@ -31,6 +32,10 @@ export class PagesComponent implements OnInit {
 
   LoadModule() {
     this.httpHelper.Post("Module/GetUserMenu", null).then((x: DtoResultObj<any>) => {
+      if(!x.IsSuccess){
+        Fun.Hint(x.Msg);
+        return;
+      }
       let nowMenu = this.JsonToMenuItemJson(x.DataList)
       var frist:NbMenuItem[]=[{
         title: "首页",

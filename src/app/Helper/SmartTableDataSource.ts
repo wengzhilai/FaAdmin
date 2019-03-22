@@ -11,6 +11,7 @@ import { Fun } from "../Config/Fun";
 export class SmartTableDataSource extends LocalDataSource {
   protected conf: ServerSourceConf;
   protected lastRequestCount: number = 0;
+  public setting:any={};
   constructor(
     protected httpHelper: HttpHelper,
     conf: ServerSourceConf | {} = {},
@@ -104,10 +105,11 @@ export class SmartTableDataSource extends LocalDataSource {
       // if (key == "_sort") postBean.sort = [{ Key: vars[0], Value: par.get("_order")[0], Type: "" }]; //排序字段
       if (key.indexOf('_like') > 0) {
         let keyName = key.substr(0, key.indexOf('_like'));
-        if(postBean.SearchKey==null){
-          postBean.SearchKey=[]
+        if(postBean.WhereList==null){
+          postBean.WhereList=[]
         }
-        postBean.SearchKey.push({ Key: keyName, Value: par.get(key), Type: "like" }); //排序字段
+        var column=this.setting.columns[keyName];
+        postBean.WhereList.push({ ObjFiled: keyName, Value: par.get(key), OpType: "like",FieldType: column["type"],FieldName:keyName}); //排序字段
       }
     })
     postBean.Code = this.inKey

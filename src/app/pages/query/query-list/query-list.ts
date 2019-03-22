@@ -18,7 +18,7 @@ import { QueryEditComponent } from '../../../components/query-edit/query-edit.co
 export class QueryListPage implements OnInit {
   @ViewChild('samrtTable', { read: ViewContainerRef }) container: ViewContainerRef;
   @ViewChild('btnHead') template;
-  source: LocalDataSource = new LocalDataSource();
+  source: SmartTableDataSource;
   /** 静态方法，获取默认配置 */
   settings: any = SmartTableDataSource.getDefaultSetting();
   configJson: any = {}
@@ -183,6 +183,8 @@ export class QueryListPage implements OnInit {
     this.settings.columns = this.configJson;
     this.settings.actions["add"] = true;
     this.settings.pager["perPage"] = 10;
+    this.source.setting=this.settings;
+
   }
 
   ngOnInit() {

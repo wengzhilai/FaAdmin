@@ -306,7 +306,7 @@ export class QueryQueryComponent implements OnInit {
    * @param readUrl 加载的URL
    */
   GetBean(defaultData = null, readUrl = null): Promise<any> {
-    if (readUrl != null) {
+    if (readUrl != null && defaultData!=null && defaultData.ID !=null) {
       return this.HttpHelper.Post(readUrl, { Key: defaultData.ID })
     }
     else {

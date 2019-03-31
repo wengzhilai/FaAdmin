@@ -9,11 +9,13 @@ import { QueryComponent } from './query.component';
 import { TranslateModule } from '../../Lib/ngx-translate/public_api';
 import { ComponentsModule } from '../../components/components.module';
 import { QueryEditComponent } from '../../components/query-edit/query-edit.component';
+import { TableEditComponent } from '../../components/table-edit/table-edit.component';
 
 
 @NgModule({
   entryComponents: [
-    QueryEditComponent
+    QueryEditComponent,
+    TableEditComponent,
   ],
   imports: [
     ThemeModule,

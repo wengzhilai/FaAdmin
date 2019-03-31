@@ -13,6 +13,7 @@ import { DtoSaveObj } from '../../../Model/DtoPost/DtoSaveObj';
 import { EditModelComponent } from '../../../components/edit-model/edit-model.component';
 import { RoleEditComponent } from '../../../components/role-edit/role-edit.component';
 import { QueryEditComponent } from '../../../components/query-edit/query-edit.component';
+import { TableEditComponent } from '../../../components/table-edit/table-edit.component'
 
 @Component({
   selector: 'query',
@@ -326,7 +327,9 @@ export class QueryQueryComponent implements OnInit {
       case "RoleEditComponent":
         return RoleEditComponent
       case "QueryEditComponent":
-        return QueryEditComponent
+        return QueryEditComponent;
+      case "TableEditComponent":
+        return TableEditComponent;
       default:
         return EditModelComponent
     }

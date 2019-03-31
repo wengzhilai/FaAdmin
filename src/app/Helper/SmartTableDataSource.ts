@@ -231,7 +231,7 @@ export class SmartTableSetting{
   hideHeader:boolean= false;
   hideSubHeader: boolean=false;
   actions:any= {
-    columnTitle: 'Actions',
+    columnTitle: 'Actions', 
     add: true,
     edit: true,
     delete: true,

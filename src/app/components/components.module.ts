@@ -10,12 +10,14 @@ import { ThemeModule } from '../@theme/theme.module';
 import { RoleEditComponent } from './role-edit/role-edit.component';
 import { TreeModule } from 'angular-tree-component';
 import { InputSelectComponent } from './input-select/input-select.component';
+import { TableEditComponent } from './table-edit/table-edit.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
 
 @NgModule({
-  entryComponents:[EditModelComponent,QueryEditComponent,RoleEditComponent],
-  declarations: [EditModelComponent, QueryEditComponent, RoleEditComponent, InputSelectComponent],
+  entryComponents: [EditModelComponent, QueryEditComponent, RoleEditComponent, TableEditComponent],
+  declarations: [EditModelComponent, QueryEditComponent, RoleEditComponent, InputSelectComponent, TableEditComponent],
   imports: [
     IonicModule,
     TranslateModule,
@@ -25,11 +27,13 @@ import { InputSelectComponent } from './input-select/input-select.component';
     PipesModule,
     ThemeModule,
     TreeModule,
+    Ng2SmartTableModule,
   ],
-  exports:[
+  exports: [
     EditModelComponent,
     QueryEditComponent,
     RoleEditComponent,
+    TableEditComponent
   ]
 })
 export class ComponentsModule { }

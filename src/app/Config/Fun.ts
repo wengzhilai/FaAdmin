@@ -67,6 +67,16 @@ export class Fun {
             return reArr.join(" ");
         }
     }
+
+    public static GetTableSetting(){
+        var reObj={};
+        var setObj=this.LanguageStr("SmartTableSetting");
+        for (const key in setObj) {
+            reObj[key]=setObj[key];
+        }
+        return reObj;
+    }
+
     /**
      * 获取地址栏的参数
      * 

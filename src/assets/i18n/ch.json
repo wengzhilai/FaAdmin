@@ -32,7 +32,7 @@
   },
   "Query": {
     "Title": "查询管理",
-    "list-title":"查询列表"
+    "list-title": "查询列表"
   },
   "public": {
     "Search": "搜索",
@@ -75,9 +75,28 @@
     "NoVersion": "获取文件路径失败，可能是本手机系统版本太底或者没有权限获取文件路径",
     "Submit": "提交"
   },
-  "quartztask":{
-    "Start":"启动任务",
-    "ReLoad":"刷新任务",
-    "Stop":"停止任务"
+  "quartztask": {
+    "Start": "启动任务",
+    "ReLoad": "刷新任务",
+    "Stop": "停止任务"
+  },
+  "SmartTableSetting": {
+    "noDataMessage": "无数据",
+    "actions": {
+      "columnTitle": "操作"
+    },
+    "edit": {
+      "editButtonContent": "修改",
+      "saveButtonContent": "更新",
+      "cancelButtonContent": "取消"
+    },
+    "add": {
+      "addButtonContent": "添加",
+      "createButtonContent": "创建",
+      "cancelButtonContent": "取消"
+    },
+    "delete": {
+      "deleteButtonContent": "删除"
+    }
   }
 }

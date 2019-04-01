@@ -27,6 +27,10 @@ const routes: Routes = [{
       loadChildren: './task/task.module#TaskModule',
     },
     {
+      path: 'equipment',
+      loadChildren: './equipment/equipment.module#EquipmentModule',
+    },
+    {
       path: 'dashboard',
       component: ECommerceComponent,
     }, {

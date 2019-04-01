@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableDataSource } from '../../../Helper/SmartTableDataSource';
 import { HttpHelper } from '../../../Helper/HttpHelper';
 import { NbWindowService } from '@nebular/theme';
@@ -16,11 +15,11 @@ import { QueryEditComponent } from '../../../components/query-edit/query-edit.co
 import { TableEditComponent } from '../../../components/table-edit/table-edit.component'
 
 @Component({
-  selector: 'query',
-  templateUrl: './query.html',
-  styleUrls: ['./query.scss']
+  selector: 'Equipment_List',
+  templateUrl: './list.html',
+  styleUrls: ['./list.scss']
 })
-export class QueryQueryComponent implements OnInit {
+export class EquipmentListComponent implements OnInit {
   @ViewChild('samrtTable', { read: ViewContainerRef }) container: ViewContainerRef;
   @ViewChild('btnHead') template;
   source: any;

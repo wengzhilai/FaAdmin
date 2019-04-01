@@ -34,6 +34,7 @@ export class HttpHelper {
     }
     console.log(httpOptions)
     console.log("请求参数")
+    console.log(JSON.stringify(postBean));
     console.log(postBean)
 
     return new Promise((resolve, reject) => {

@@ -9,6 +9,7 @@ import { TranslateModule } from '../../Lib/ngx-translate/public_api';
 import { ComponentsModule } from '../../components/components.module';
 import { EquipmentRoutingModule, routedComponents } from './equipment.routes';
 import { EditModelComponent } from '../../components/edit-model/edit-model.component';
+import { TreeModule } from 'angular-tree-component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { EditModelComponent } from '../../components/edit-model/edit-model.compo
     Ng2SmartTableModule,
     EquipmentRoutingModule,
     TranslateModule,
+    TreeModule,
     ComponentsModule
   ],
   declarations: [

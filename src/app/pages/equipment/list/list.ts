@@ -54,101 +54,26 @@ export class EquipmentListComponent implements OnInit {
     private routerIonfo: ActivatedRoute,
     private HttpHelper: HttpHelper,
     private windowService: NbWindowService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {
   }
   ngOnInit() {
-    this.CheckUrl();
+    this.routerIonfo.queryParams.subscribe(params => {
+      this.code = params['id'];
+      this.LoadData();
+    });
   }
 
-
-  /** 用于检测URL地址是否改变，如已经变则刷新该页面 */
-  CheckUrl() {
-
-    setTimeout(() => {
-      if (window.location.href.indexOf("/pages/query/query?") > -1) {
-        if (window.location.href != this.thisUrl) {
-          this.thisUrl = window.location.href
-          this.code = this.routerIonfo.snapshot.queryParams["code"];
-          this.LoadData().then(x => {
-            this.CheckUrl()
-          })
-        }
-        else {
-          this.CheckUrl()
-        }
-      }
-    }, 1000)
-  }
   LoadData() {
     //隐藏table，在显示的时候，才会刷新列数据
-    this.LoadSetting = false;
-    let postEnt = { Key: this.code }
-    return this.HttpHelper.Post("query/GetSingleQuery", postEnt).then((data: DtoResultObj<any>) => {
-      if (data.IsSuccess) {
-        //显示table
-        this.LoadSetting = true;
+    let smartTableCofnig: ServerSourceConf = new ServerSourceConf();
+    smartTableCofnig.endPoint = 'Equipment/GetConfigAndData';
+    smartTableCofnig.dataKey = "code"
 
-        this.queryEnt = data.Data
-        //隐藏，hide=true的字段
-        let t: any = {}
-        //设置列配置
-        eval("t=" + this.queryEnt.QUERY_CFG_JSON)
-        this.configJson = t
-        for (const key in this.configJson) {
-          this.clmNum++;
-        }
-        this.clmNum += 2;
+    this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig, this.code);
+    this.source.setting = this.settings;
 
-        //设置表头按钮配置
-        eval("t=" + this.queryEnt.HEARD_BTN)
-        this.headBtnSet = t
-        //读取行按钮
-        try {
-          eval("t=" + this.queryEnt.ROWS_BTN)
-          this.rowBtnSet = t
-        } catch (error) {
-
-        }
-        if (this.rowBtnSet == null) this.rowBtnSet = []
-
-        let tempCol = SmartTableDataSource.ReMoveHideItem(this.configJson);
-        // for (const item in tempCol) {
-        //   if (tempCol[item]["renderComponent"] == "SmartTableFormatValuePage") {
-        //     tempCol[item]["renderComponent"] = SmartTableFormatValuePage
-        //   }
-        // }
-        this.settings.columns = tempCol
-        this.LoadSetting = true
-        //配置是否有筛选框
-        if (this.queryEnt.SHOW_CHECKBOX != 1) {
-          this.settings.selectMode = "single"
-        }
-
-        if (this.rowBtnSet.length > 1) {
-          this.settings.actions.edit = true
-          this.settings.edit.editButtonContent = '<i class="' + this.rowBtnSet[0].class + '"></i>'
-        }
-        if (this.rowBtnSet.length > 2) {
-          this.settings.actions.edit = true
-          this.settings.delete.deleteButtonContent = '<i class="' + this.rowBtnSet[1].class + '"></i>'
-        }
-
-        let smartTableCofnig: ServerSourceConf = new ServerSourceConf();
-        smartTableCofnig.endPoint = 'Query/GetBindListData';
-        smartTableCofnig.dataKey = "code"
-
-        
-        this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig, this.code);
-        this.source.setting=this.settings;
-
-        this.AddHeadBtn()
-
-      }
-
-    }, (x) => {
-      console.log(x)
-    })
+    // this.AddHeadBtn()
   }
 
   AddHeadBtn() {
@@ -306,7 +231,7 @@ export class EquipmentListComponent implements OnInit {
    * @param readUrl 加载的URL
    */
   GetBean(defaultData = null, readUrl = null): Promise<any> {
-    if (readUrl != null && defaultData!=null && defaultData.ID !=null) {
+    if (readUrl != null && defaultData != null && defaultData.ID != null) {
       return this.HttpHelper.Post(readUrl, { Key: defaultData.ID })
     }
     else {

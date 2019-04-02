@@ -3,6 +3,7 @@ import { HttpHelper } from '../../Helper/HttpHelper';
 import { DtoResultObj } from '../../Model/DtoRec/DtoResult';
 import { Fun } from '../../Config/Fun';
 import { TreeComponent, ITreeOptions } from 'angular-tree-component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'Equipment',
@@ -35,7 +36,8 @@ export class EquipmentComponent  implements OnInit {
   
     };
   constructor(
-    private httpHelper: HttpHelper,
+      protected router: Router,
+      private httpHelper: HttpHelper,
   ) {
   }
   
@@ -62,6 +64,10 @@ export class EquipmentComponent  implements OnInit {
 
   onSelect(obj) {
     console.log(obj.node.data);
+    // this.router.navigateByUrl("pages/equipment/list/"+obj.node.data.K);
+    // this.router.navigate("pages/equipment/list/"+obj.node.data.K);
+    this.router.navigate(['pages/equipment/list'],{ queryParams: { id: obj.node.data.K} });
+
     // var tmp = this.tree.treeModel.selectedLeafNodeIds;
     // let v = []
     // for (const key in tmp) {

@@ -113,6 +113,8 @@ export class SmartTableDataSource extends LocalDataSource {
       }
     })
     postBean.Code = this.inKey
+    if(postBean.rows==null)postBean.rows=1;
+    if(postBean.page==null)postBean.page=10;
     return this.httpHelper.PostToObservable(this.conf.endPoint, postBean).pipe(x => {
       return x
     })

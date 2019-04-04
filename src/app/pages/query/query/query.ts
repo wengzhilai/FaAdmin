@@ -59,28 +59,32 @@ export class QueryQueryComponent implements OnInit {
   ) {
   }
   ngOnInit() {
-    this.CheckUrl();
+    // this.CheckUrl();
+    this.routerIonfo.queryParams.subscribe(params => {
+      this.code = params['code'];
+      this.LoadData();
+    });
   }
 
 
   /** 用于检测URL地址是否改变，如已经变则刷新该页面 */
-  CheckUrl() {
+  // CheckUrl() {
 
-    setTimeout(() => {
-      if (window.location.href.indexOf("/pages/query/query?") > -1) {
-        if (window.location.href != this.thisUrl) {
-          this.thisUrl = window.location.href
-          this.code = this.routerIonfo.snapshot.queryParams["code"];
-          this.LoadData().then(x => {
-            this.CheckUrl()
-          })
-        }
-        else {
-          this.CheckUrl()
-        }
-      }
-    }, 1000)
-  }
+  //   setTimeout(() => {
+  //     if (window.location.href.indexOf("/pages/query/query?") > -1) {
+  //       if (window.location.href != this.thisUrl) {
+  //         this.thisUrl = window.location.href
+  //         this.code = this.routerIonfo.snapshot.queryParams["code"];
+  //         this.LoadData().then(x => {
+  //           this.CheckUrl()
+  //         })
+  //       }
+  //       else {
+  //         this.CheckUrl()
+  //       }
+  //     }
+  //   }, 1000)
+  // }
   LoadData() {
     //隐藏table，在显示的时候，才会刷新列数据
     this.LoadSetting = false;

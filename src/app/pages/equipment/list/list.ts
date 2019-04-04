@@ -65,23 +65,52 @@ export class EquipmentListComponent implements OnInit {
   }
 
   LoadData() {
-    //隐藏table，在显示的时候，才会刷新列数据
-    let smartTableCofnig: ServerSourceConf = new ServerSourceConf();
-    smartTableCofnig.endPoint = 'Equipment/GetConfigAndData';
-    smartTableCofnig.dataKey = "code"
 
-    this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig, this.code);
-    this.source.setting = this.settings;
+    this.LoadSetting = false;
+    let postEnt = { Key: this.code }
+    return this.HttpHelper.Post("Equipment/GetConfig", postEnt).then((data: DtoResultObj<any>) => {
+      if (data.IsSuccess) {
+        //显示table
+        this.LoadSetting = true;
+
+        this.configJson={};
+        var cfgJsonList:Array<any>=data.Data.ColumnsList;
+        this.clmNum=0;
+        cfgJsonList.forEach((element:any) => {
+          console.log(element);
+          if (element.hasOwnProperty("ColumnName")) {
+            this.configJson[element["ColumnName"]]=element;
+            this.clmNum++;
+          }
+        });
+        this.clmNum += 2;
+        console.log(this.configJson);
+        this.settings.columns = this.configJson
+
+        let smartTableCofnig: ServerSourceConf = new ServerSourceConf();
+        smartTableCofnig.endPoint = 'Equipment/GetConfigAndData';
+        smartTableCofnig.dataKey = "code"
+
+        this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig, this.code);
+        this.source.setting = this.settings;
+        // this.ReLoad()
+
+      }
+
+    }, (x) => {
+      console.log(x)
+    })
+
+
+
+
+
+    //隐藏table，在显示的时候，才会刷新列数据
 
     // this.AddHeadBtn()
   }
 
-  AddHeadBtn() {
-    setTimeout(() => {
-      var table = this.container.element.nativeElement.children[0];
-      this.renderer.appendChild(table, this.template.nativeElement)
-    }, 100);
-  }
+
 
   userRowSelect(event) {
     this.selectedArr = event.selected
@@ -132,9 +161,10 @@ export class EquipmentListComponent implements OnInit {
               return new Promise(async (resolve, reject) => {
                 console.log(x);
                 if (window.confirm('确定要保存吗？')) {
-                  let postClass: DtoSaveObj<any> = new DtoSaveObj<any>();
-                  postClass.Data = x;
-                  postClass.SaveFieldList = Fun.GetBeanNameStr(x);
+                  let postClass: any = {};
+                  postClass.DataStr = JSON.stringify(x);
+                  postClass.Id=(defaultData==null)?'0':defaultData.ID;
+                  postClass.TypeId=this.code
                   await Fun.ShowLoading();
 
                   this.HttpHelper.Post(apiUrl, postClass).then((data: DtoResultObj<any>) => {
@@ -188,9 +218,7 @@ export class EquipmentListComponent implements OnInit {
 
 
   onSave(nowThis, event) {
-    if (this.rowBtnSet.length > 0) {
-      this.Add(this.rowBtnSet[0].apiUrl, this.rowBtnSet[0].openModal, event.data, this.rowBtnSet[0].readUrl)
-    }
+      this.Add("Equipment/SaveEquiment","EditModelComponent", event.data, "Equipment/SingleEquiment")
   }
   /**
    * 删除
@@ -232,7 +260,8 @@ export class EquipmentListComponent implements OnInit {
    */
   GetBean(defaultData = null, readUrl = null): Promise<any> {
     if (readUrl != null && defaultData != null && defaultData.ID != null) {
-      return this.HttpHelper.Post(readUrl, { Key: defaultData.ID })
+
+      return this.HttpHelper.Post(readUrl, { Id: defaultData.ID,TypeId:this.code })
     }
     else {
       if (defaultData == null) defaultData = {}

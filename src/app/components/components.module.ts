@@ -12,12 +12,13 @@ import { TreeModule } from 'angular-tree-component';
 import { InputSelectComponent } from './input-select/input-select.component';
 import { TableEditComponent } from './table-edit/table-edit.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { LookModelComponent } from './look-model/look-model.component';
 
 
 
 @NgModule({
-  entryComponents: [EditModelComponent, QueryEditComponent, RoleEditComponent, TableEditComponent],
-  declarations: [EditModelComponent, QueryEditComponent, RoleEditComponent, InputSelectComponent, TableEditComponent],
+  entryComponents: [EditModelComponent, QueryEditComponent, RoleEditComponent, TableEditComponent,LookModelComponent],
+  declarations: [EditModelComponent, QueryEditComponent, RoleEditComponent, InputSelectComponent, TableEditComponent, LookModelComponent],
   imports: [
     IonicModule,
     TranslateModule,
@@ -33,7 +34,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     EditModelComponent,
     QueryEditComponent,
     RoleEditComponent,
-    TableEditComponent
+    TableEditComponent,
+    LookModelComponent,
   ]
 })
 export class ComponentsModule { }

@@ -10,11 +10,13 @@ import { ComponentsModule } from '../../components/components.module';
 import { EquipmentRoutingModule, routedComponents } from './equipment.routes';
 import { EditModelComponent } from '../../components/edit-model/edit-model.component';
 import { TreeModule } from 'angular-tree-component';
+import { LookModelComponent } from '../../components/look-model/look-model.component';
 
 
 @NgModule({
   entryComponents: [
-    EditModelComponent
+    EditModelComponent,
+    LookModelComponent,
   ],
   imports: [
     ThemeModule,

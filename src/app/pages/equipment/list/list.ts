@@ -7,11 +7,11 @@ import { DtoResultObj } from '../../../Model/DtoRec/DtoResult';
 import { ServerSourceConf } from 'ng2-smart-table/lib/data-source/server/server-source.conf';
 import { Variables } from '../../../Config/Variables';
 import { Fun } from '../../../Config/Fun';
-import { DtoDo } from '../../../Model/DtoPost/DtoDo';
 import { EditModelComponent } from '../../../components/edit-model/edit-model.component';
 import { RoleEditComponent } from '../../../components/role-edit/role-edit.component';
 import { QueryEditComponent } from '../../../components/query-edit/query-edit.component';
 import { TableEditComponent } from '../../../components/table-edit/table-edit.component'
+import { LookModelComponent } from '../../../components/look-model/look-model.component';
 
 @Component({
   selector: 'Equipment_List',
@@ -74,13 +74,13 @@ export class EquipmentListComponent implements OnInit {
         //显示table
         this.LoadSetting = true;
 
-        this.configJson={};
-        var cfgJsonList:Array<any>=data.Data.ColumnsList;
-        this.clmNum=0;
-        cfgJsonList.forEach((element:any) => {
+        this.configJson = {};
+        var cfgJsonList: Array<any> = data.Data.ColumnsList;
+        this.clmNum = 0;
+        cfgJsonList.forEach((element: any) => {
           console.log(element);
           if (element.hasOwnProperty("ColumnName")) {
-            this.configJson[element["ColumnName"]]=element;
+            this.configJson[element["ColumnName"]] = element;
             this.clmNum++;
           }
         });
@@ -95,27 +95,30 @@ export class EquipmentListComponent implements OnInit {
         this.source = new SmartTableDataSource(this.HttpHelper, smartTableCofnig, this.code);
         this.source.setting = this.settings;
         // this.ReLoad()
-
       }
 
     }, (x) => {
       console.log(x)
     })
-
-
-
-
-
-    //隐藏table，在显示的时候，才会刷新列数据
-
-    // this.AddHeadBtn()
   }
 
 
 
   userRowSelect(event) {
     this.selectedArr = event.selected
-    console.log(this.selectedArr)
+    if (this.selectedArr.length > 0) {
+      console.log(this.selectedArr)
+
+      this.windowService.open(LookModelComponent, {
+        windowClass: "DivWindow",
+        title: "查看",
+        context: {
+          bean: this.selectedArr[0],
+          inputs: this.configJson,
+
+        }
+      });
+    }
   }
 
   /**
@@ -164,14 +167,14 @@ export class EquipmentListComponent implements OnInit {
                 if (window.confirm('确定要保存吗？')) {
                   let postClass: any = {};
                   postClass.DataStr = JSON.stringify(x);
-                  postClass.TypeId=this.code
-                  if(defaultData==null || defaultData.Id==null){
-                    apiUrl="Equipment/SaveEquiment";
-                    postClass.Id=0;
+                  postClass.TypeId = this.code
+                  if (defaultData == null || defaultData.Id == null) {
+                    apiUrl = "Equipment/SaveEquiment";
+                    postClass.Id = 0;
                   }
-                  else{
-                    apiUrl="Equipment/UpdateEquiment";
-                    postClass.Id=defaultData.Id;
+                  else {
+                    apiUrl = "Equipment/UpdateEquiment";
+                    postClass.Id = defaultData.Id;
                   }
                   await Fun.ShowLoading();
 
@@ -218,13 +221,13 @@ export class EquipmentListComponent implements OnInit {
    */
   onDelete(event): void {
 
-      this.DeleteApi("Equipment/DeleteEquiment", event.data.Id)
+    this.DeleteApi("Equipment/DeleteEquiment", event.data.Id)
 
   }
 
 
   onSave(nowThis, event) {
-      this.Add("Equipment/SaveEquiment","EditModelComponent", event.data, "Equipment/SingleEquiment")
+    this.Add("Equipment/SaveEquiment", "EditModelComponent", event.data, "Equipment/SingleEquiment")
   }
   /**
    * 删除
@@ -235,7 +238,7 @@ export class EquipmentListComponent implements OnInit {
   async DeleteApi(apiUrl, Key) {
     if (window.confirm("确认删除吗？")) {
       await Fun.ShowLoading();
-      this.HttpHelper.Post(apiUrl, { Id: Key,TypeId:this.code }).then((data: DtoResultObj<any>) => {
+      this.HttpHelper.Post(apiUrl, { Id: Key, TypeId: this.code }).then((data: DtoResultObj<any>) => {
         Fun.HideLoading()
         console.log(data)
         if (data.IsSuccess) {
@@ -257,7 +260,7 @@ export class EquipmentListComponent implements OnInit {
   GetBean(defaultData = null, readUrl = null): Promise<any> {
     if (readUrl != null && defaultData != null && defaultData.ID != null) {
 
-      return this.HttpHelper.Post(readUrl, { Id: defaultData.ID,TypeId:this.code })
+      return this.HttpHelper.Post(readUrl, { Id: defaultData.ID, TypeId: this.code })
     }
     else {
       if (defaultData == null) defaultData = {}

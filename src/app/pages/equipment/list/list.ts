@@ -8,7 +8,6 @@ import { ServerSourceConf } from 'ng2-smart-table/lib/data-source/server/server-
 import { Variables } from '../../../Config/Variables';
 import { Fun } from '../../../Config/Fun';
 import { DtoDo } from '../../../Model/DtoPost/DtoDo';
-import { DtoSaveObj } from '../../../Model/DtoPost/DtoSaveObj';
 import { EditModelComponent } from '../../../components/edit-model/edit-model.component';
 import { RoleEditComponent } from '../../../components/role-edit/role-edit.component';
 import { QueryEditComponent } from '../../../components/query-edit/query-edit.component';
@@ -64,11 +63,13 @@ export class EquipmentListComponent implements OnInit {
     });
   }
 
-  LoadData() {
+  async LoadData() {
 
     this.LoadSetting = false;
     let postEnt = { Key: this.code }
+    await Fun.ShowLoading();
     return this.HttpHelper.Post("Equipment/GetConfig", postEnt).then((data: DtoResultObj<any>) => {
+      Fun.HideLoading();
       if (data.IsSuccess) {
         //显示table
         this.LoadSetting = true;
@@ -163,8 +164,15 @@ export class EquipmentListComponent implements OnInit {
                 if (window.confirm('确定要保存吗？')) {
                   let postClass: any = {};
                   postClass.DataStr = JSON.stringify(x);
-                  postClass.Id=(defaultData==null)?'0':defaultData.ID;
                   postClass.TypeId=this.code
+                  if(defaultData==null || defaultData.Id==null){
+                    apiUrl="Equipment/SaveEquiment";
+                    postClass.Id=0;
+                  }
+                  else{
+                    apiUrl="Equipment/UpdateEquiment";
+                    postClass.Id=defaultData.Id;
+                  }
                   await Fun.ShowLoading();
 
                   this.HttpHelper.Post(apiUrl, postClass).then((data: DtoResultObj<any>) => {
@@ -210,9 +218,7 @@ export class EquipmentListComponent implements OnInit {
    */
   onDelete(event): void {
 
-    if (this.rowBtnSet.length > 1) {
-      this.DeleteApi(this.rowBtnSet[1].apiUrl, event.data.ID, this.rowBtnSet[1].confirmTip)
-    }
+      this.DeleteApi("Equipment/DeleteEquiment", event.data.Id)
 
   }
 
@@ -226,12 +232,10 @@ export class EquipmentListComponent implements OnInit {
    * @param Key 
    * @param confirmTip 
    */
-  async DeleteApi(apiUrl, Key, confirmTip) {
-    if (window.confirm(confirmTip)) {
+  async DeleteApi(apiUrl, Key) {
+    if (window.confirm("确认删除吗？")) {
       await Fun.ShowLoading();
-      let postClass: DtoDo = new DtoDo();
-      postClass.Key = Key;
-      this.HttpHelper.Post(apiUrl, postClass).then((data: DtoResultObj<any>) => {
+      this.HttpHelper.Post(apiUrl, { Id: Key,TypeId:this.code }).then((data: DtoResultObj<any>) => {
         Fun.HideLoading()
         console.log(data)
         if (data.IsSuccess) {
@@ -242,14 +246,6 @@ export class EquipmentListComponent implements OnInit {
         }
       });
     }
-  }
-
-  Exec(apiUrl, Key, confirmTip) {
-    let allKeyList = []
-    this.selectedArr.forEach(element => {
-      allKeyList.push(element[Key])
-    });
-    this.DeleteApi(apiUrl, allKeyList.join(","), confirmTip)
   }
 
 

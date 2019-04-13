@@ -13,6 +13,7 @@ import { InputSelectComponent } from './input-select/input-select.component';
 import { TableEditComponent } from './table-edit/table-edit.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { LookModelComponent } from './look-model/look-model.component';
+import { QRCodeModule } from '../Lib/angularx-qrcode/QRCodeModule';
 
 
 
@@ -29,6 +30,7 @@ import { LookModelComponent } from './look-model/look-model.component';
     ThemeModule,
     TreeModule,
     Ng2SmartTableModule,
+    QRCodeModule,
   ],
   exports: [
     EditModelComponent,

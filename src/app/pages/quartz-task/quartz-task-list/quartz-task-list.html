@@ -25,8 +25,8 @@
     </td>
   </tr>
   <nb-card-body>
-    <ng2-smart-table #samrtTable [settings]="settings" [source]="source" (create)="onSave($event)"
-      (delete)="onDelete($event)" (userRowSelect)="userRowSelect($event)" (edit)="onSave($event)">
+    <ng2-smart-table #samrtTable [settings]="settings" [source]="source" 
+      (delete)="onDelete($event)" >
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>

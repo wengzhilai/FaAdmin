@@ -15,7 +15,7 @@ import { UserDto } from "../../../Model/DtoRec/UserDto";
 })
 export class AuthLoginPage {
     i18n = 'Login'
-
+    submitted=""
     rememberMe = false;
     userForm: FormGroup;
     promise: Promise<string>;

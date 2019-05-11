@@ -49,6 +49,9 @@ export class EquipmentListComponent implements OnInit {
   selectedArr = []
   code: any;
   thisUrl: string = ""
+
+  ShowMore=false;
+
   constructor(
     private routerIonfo: ActivatedRoute,
     private HttpHelper: HttpHelper,

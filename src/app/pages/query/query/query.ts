@@ -51,6 +51,7 @@ export class QueryQueryComponent implements OnInit {
   selectedArr = []
   code: any;
   thisUrl: string = ""
+  ShowMore=true;
   constructor(
     private routerIonfo: ActivatedRoute,
     private HttpHelper: HttpHelper,

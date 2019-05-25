@@ -202,7 +202,11 @@ export class QueryQueryComponent implements OnInit {
       if (defaultData != null) {
         title = "添加"
       }
-      this.windowService.open(this.GetComponents(openModal), {
+      let thisOpenMode=this.GetComponents(openModal);
+      console.log(thisOpenMode);
+      console.log(x.Data);
+      console.log(this.configJson);
+      this.windowService.open(thisOpenMode, {
         windowClass: "DivWindow",
         title: title,
         context: {

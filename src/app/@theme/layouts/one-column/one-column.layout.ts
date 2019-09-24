@@ -1,13 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators';
+import { Component } from '@angular/core';
 
-// TODO: move layouts into the framework
 @Component({
   selector: 'ngx-one-column-layout',
   styleUrls: ['./one-column.layout.scss'],
   template: `
-    <nb-layout>
+    <nb-layout windowMode>
       <nb-layout-header fixed>
         <ngx-header></ngx-header>
       </nb-layout-header>
@@ -26,21 +23,4 @@ import { takeWhile } from 'rxjs/operators';
     </nb-layout>
   `,
 })
-export class OneColumnLayoutComponent implements OnDestroy {
-
-  private alive = true;
-
-  currentTheme: string;
-
-  constructor(protected themeService: NbThemeService) {
-    this.themeService.getJsTheme()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
-        this.currentTheme = theme.name;
-    });
-  }
-
-  ngOnDestroy() {
-    this.alive = false;
-  }
-}
+export class OneColumnLayoutComponent {}

@@ -16,8 +16,8 @@ import { QueryEditComponent } from '../../../components/query-edit/query-edit.co
   styleUrls: ['./query-list.scss']
 })
 export class QueryListPage implements OnInit {
-  @ViewChild('samrtTable', { read: ViewContainerRef }) container: ViewContainerRef;
-  @ViewChild('btnHead') template;
+  @ViewChild('samrtTable', { static:true,read: ViewContainerRef }) container: ViewContainerRef;
+  @ViewChild('btnHead',{static:true}) template;
   source: SmartTableDataSource;
   /** 静态方法，获取默认配置 */
   settings: any = SmartTableDataSource.getDefaultSetting();

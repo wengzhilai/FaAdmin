@@ -1,5 +1,6 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NbAuthModule, NbDummyAuthStrategy } from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -50,23 +51,22 @@ import { StatsProgressBarService } from './mock/stats-progress-bar.service';
 import { VisitorsAnalyticsService } from './mock/visitors-analytics.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { MockDataModule } from './mock/mock-data.module';
-// import { NbAuthModule, NbDummyAuthStrategy } from '@Nebular/auth';
 
 const socialLinks = [
   {
     url: 'https://github.com/akveo/nebular',
     target: '_blank',
-    icon: 'socicon-github',
+    icon: 'github',
   },
   {
     url: 'https://www.facebook.com/akveo/',
     target: '_blank',
-    icon: 'socicon-facebook',
+    icon: 'facebook',
   },
   {
     url: 'https://twitter.com/akveo_inc',
     target: '_blank',
-    icon: 'socicon-twitter',
+    icon: 'twitter',
   },
 ];
 
@@ -102,6 +102,23 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
 export const NB_CORE_PROVIDERS = [
   ...MockDataModule.forRoot().providers,
   ...DATA_SERVICES,
+  ...NbAuthModule.forRoot({
+
+    strategies: [
+      NbDummyAuthStrategy.setup({
+        name: 'email',
+        delay: 3000,
+      }),
+    ],
+    forms: {
+      login: {
+        socialLinks: socialLinks,
+      },
+      register: {
+        socialLinks: socialLinks,
+      },
+    },
+  }).providers,
 
   NbSecurityModule.forRoot({
     accessControl: {
@@ -131,7 +148,7 @@ export const NB_CORE_PROVIDERS = [
     CommonModule,
   ],
   exports: [
-    // NbAuthModule,
+    NbAuthModule,
   ],
   declarations: [],
 })

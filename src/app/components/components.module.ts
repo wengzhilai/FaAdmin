@@ -14,7 +14,10 @@ import { TableEditComponent } from './table-edit/table-edit.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { LookModelComponent } from './look-model/look-model.component';
 import { QRCodeModule } from '../Lib/angularx-qrcode/QRCodeModule';
-
+import {
+  NbCheckboxModule,NbTabsetModule,
+  NbCardModule
+} from '@nebular/theme';
 
 
 @NgModule({
@@ -28,6 +31,9 @@ import { QRCodeModule } from '../Lib/angularx-qrcode/QRCodeModule';
     CommonModule,
     PipesModule,
     ThemeModule,
+    NbTabsetModule,
+    NbCheckboxModule,
+    NbCardModule,
     TreeModule,
     Ng2SmartTableModule,
     QRCodeModule,

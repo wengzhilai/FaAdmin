@@ -9,7 +9,9 @@ import { TranslateModule } from '../../Lib/ngx-translate/public_api';
 import { ComponentsModule } from '../../components/components.module';
 import { QuartzTaskRoutingModule, routedComponents } from './quartz-task.routes';
 import { EditModelComponent } from '../../components/edit-model/edit-model.component';
-
+import {
+  NbCardModule,
+} from '@nebular/theme';
 
 @NgModule({
   entryComponents: [
@@ -20,7 +22,10 @@ import { EditModelComponent } from '../../components/edit-model/edit-model.compo
     Ng2SmartTableModule,
     QuartzTaskRoutingModule,
     TranslateModule,
-    ComponentsModule
+    ComponentsModule,
+
+    NbCardModule,
+
   ],
   declarations: [
     routedComponents

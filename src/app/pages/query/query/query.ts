@@ -21,8 +21,8 @@ import { TableEditComponent } from '../../../components/table-edit/table-edit.co
   styleUrls: ['./query.scss']
 })
 export class QueryQueryComponent implements OnInit {
-  @ViewChild('samrtTable', { read: ViewContainerRef }) container: ViewContainerRef;
-  @ViewChild('btnHead') template;
+  @ViewChild('samrtTable', {static:true, read: ViewContainerRef }) container: ViewContainerRef;
+  @ViewChild('btnHead',{static:true}) template;
   source: any;
   queryEnt: any = {
     REMARK: "　"

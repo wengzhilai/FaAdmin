@@ -5,6 +5,7 @@ import { KeyValuePair } from "../Model/KeyValuePair";
 import { ImgUrlPipe } from "../pipes/ImgUrl";
 import { Variables } from "./Variables";
 import { EditModelComponent } from "../components/edit-model/edit-model.component";
+import { Params } from '@angular/router';
 
 export class Fun {
 
@@ -68,11 +69,11 @@ export class Fun {
         }
     }
 
-    public static GetTableSetting(){
-        var reObj={};
-        var setObj=this.LanguageStr("SmartTableSetting");
+    public static GetTableSetting() {
+        var reObj = {};
+        var setObj = this.LanguageStr("SmartTableSetting");
         for (const key in setObj) {
-            reObj[key]=setObj[key];
+            reObj[key] = setObj[key];
         }
         return reObj;
     }
@@ -89,6 +90,17 @@ export class Fun {
         var r = window.location.search.substr(1).match(reg);
         if (r != null) return r[2];
         return null;
+    }
+
+    public static UrlToJosn(url:String): any {
+        console.log("url转josn");
+        if (url == null || url=="" || url.indexOf('?')==-1) return {};
+        let arr = url.split('?')[1].split('&');   //先通过？分解得到？后面的所需字符串，再将其通过&分解开存放在数组里
+        let obj = {};
+        for (let i of arr) {
+            obj[i.split('=')[0]] = i.split('=')[1];  //对数组每项用=分解开，=前为对象属性名，=后为属性值
+        }
+        console.log(obj);
     }
 
 

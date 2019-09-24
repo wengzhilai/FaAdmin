@@ -15,17 +15,15 @@ import { Fun } from './Config/Fun';
 })
 export class AppComponent implements OnInit {
 
-  constructor(
-    private analytics: AnalyticsService,
-     platform: Platform,
+  constructor(private analytics: AnalyticsService,
+    platform: Platform,
     _loadingCtrl: LoadingController,
     _toastCtrl: ToastController,
     _alertCtrl: AlertController,
     _translate: TranslateService,
     _modalCtrl: ModalController,
     ) {
-    Fun.Init(_loadingCtrl, _toastCtrl, platform, _alertCtrl, _translate,_modalCtrl);
-
+      Fun.Init(_loadingCtrl, _toastCtrl, platform, _alertCtrl, _translate,_modalCtrl);
   }
 
   ngOnInit(): void {

@@ -32,7 +32,7 @@ export class RoleEditComponent implements OnInit {
 
   };
   moduleIdStr;
-  @ViewChild('tree') tree: TreeComponent;
+  @ViewChild('tree', { static: true }) tree: TreeComponent;
   screenheight = document.documentElement.clientHeight - 300
   constructor(
     public windowRef: NbWindowRef,

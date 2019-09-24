@@ -1,8 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbTabsetModule,
+  NbUserModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbListModule,
+  NbIconModule,
+  NbLayoutModule,
+  NbSidebarModule,
 
-
+} from '@nebular/theme';
 
 
 import { TranslateModule } from '../../Lib/ngx-translate/public_api';
@@ -24,7 +36,19 @@ import { LookModelComponent } from '../../components/look-model/look-model.compo
     EquipmentRoutingModule,
     TranslateModule,
     TreeModule,
-    ComponentsModule
+    ComponentsModule,
+    NbActionsModule,
+    NbButtonModule,
+    NbCardModule,
+    NbTabsetModule,
+    NbUserModule,
+    NbRadioModule,
+    NbSelectModule,
+    NbListModule,
+    NbIconModule,
+    NbLayoutModule,
+    NbSidebarModule,
+
   ],
   declarations: [
     routedComponents

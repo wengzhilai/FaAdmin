@@ -10,7 +10,17 @@ import { TranslateModule } from '../../Lib/ngx-translate/public_api';
 import { ComponentsModule } from '../../components/components.module';
 import { QueryEditComponent } from '../../components/query-edit/query-edit.component';
 import { TableEditComponent } from '../../components/table-edit/table-edit.component';
-
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbTabsetModule,
+  NbUserModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbListModule,
+  NbIconModule,
+} from '@nebular/theme';
 
 @NgModule({
   entryComponents: [
@@ -22,7 +32,17 @@ import { TableEditComponent } from '../../components/table-edit/table-edit.compo
     Ng2SmartTableModule,
     QueryRoutingModule,
     TranslateModule,
-    ComponentsModule
+    ComponentsModule,
+    
+    NbActionsModule,
+    NbButtonModule,
+    NbCardModule,
+    NbTabsetModule,
+    NbUserModule,
+    NbRadioModule,
+    NbSelectModule,
+    NbListModule,
+    NbIconModule,
   ],
   declarations: [
     QueryListPage,

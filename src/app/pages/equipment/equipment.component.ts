@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
   `,
 })
 export class EquipmentComponent  implements OnInit {
-  @ViewChild('tree') tree: TreeComponent;
+  @ViewChild('tree',{static:true}) tree: TreeComponent;
 
   menu = [];
 

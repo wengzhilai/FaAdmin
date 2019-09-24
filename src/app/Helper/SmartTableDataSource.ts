@@ -1,9 +1,10 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { LocalDataSource } from "ng2-smart-table";
 import { ServerSourceConf } from "ng2-smart-table/lib/data-source/server/server-source.conf";
 // import { getDeepFromObject } from "@Nebular/auth/helpers";
 import { Observable } from "rxjs";
 import { HttpHelper } from "./HttpHelper";
-import { RequestOptionsArgs } from "@angular/http";
+
 import { map } from 'rxjs/operators';
 import { DtoResultObj } from "../Model/DtoRec/DtoResult";
 import { Fun } from "../Config/Fun";
@@ -89,8 +90,8 @@ export class SmartTableDataSource extends LocalDataSource {
   protected requestElements(): Observable<any> {
     console.log("请求所有数据");
 
-    let allPar = this.createRequestOptions();
-    let par: URLSearchParams = allPar.params as URLSearchParams
+    let allPar = this.createRequesParams();
+    let par = allPar
     console.log(par)
     let postBean: any = {};
 
@@ -99,9 +100,9 @@ export class SmartTableDataSource extends LocalDataSource {
     postBean.order=par.get("_order");
     postBean.rows=par.get("_limit");
     postBean.page=par.get("_page");
-    par.forEach((vars, key) => {
+    par.keys().forEach((key,num) => {
       console.log(key)
-      console.log(vars)
+      console.log(num)
       // if (key == "_sort") postBean.sort = [{ Key: vars[0], Value: par.get("_order")[0], Type: "" }]; //排序字段
       if (key.indexOf('_like') > 0) {
         let keyName = key.substr(0, key.indexOf('_like'));
@@ -120,59 +121,51 @@ export class SmartTableDataSource extends LocalDataSource {
     })
   }
 
-  protected createRequestOptions(): RequestOptionsArgs {
+  protected createRequesParams(): HttpParams {
     console.log("获取头文件");
-    let requestOptions: RequestOptionsArgs = {};
-    requestOptions.params = new URLSearchParams();
+    let httpParams = new HttpParams();
 
-    requestOptions = this.addSortRequestOptions(requestOptions);
-    requestOptions = this.addFilterRequestOptions(requestOptions);
-    return this.addPagerRequestOptions(requestOptions);
+    httpParams = this.addSortRequestParams(httpParams);
+    httpParams = this.addFilterRequestParams(httpParams);
+    return this.addPagerRequestParams(httpParams);
   }
 
-  protected addSortRequestOptions(requestOptions: RequestOptionsArgs): RequestOptionsArgs {
-    console.log("添加排序请求参数");
-
-    const searchParams: URLSearchParams = <URLSearchParams>requestOptions.params;
-
-    if (this.sortConf) {
+protected addSortRequestParams(httpParams: HttpParams): HttpParams {
+  console.log("添加排序请求参数");
+  if (this.sortConf) {
       this.sortConf.forEach((fieldConf) => {
-        searchParams.set(this.conf.sortFieldKey, fieldConf.field);
-        searchParams.set(this.conf.sortDirKey, fieldConf.direction.toUpperCase());
+        httpParams = httpParams.set(this.conf.sortFieldKey, fieldConf.field);
+        httpParams = httpParams.set(this.conf.sortDirKey, fieldConf.direction.toUpperCase());
       });
     }
 
-    return requestOptions;
+    return httpParams;
   }
 
-  protected addFilterRequestOptions(requestOptions: RequestOptionsArgs): RequestOptionsArgs {
+  protected addFilterRequestParams(httpParams: HttpParams): HttpParams {
     console.log("添加过虑请求参数");
-
-    const searchParams: URLSearchParams = <URLSearchParams>requestOptions.params;
-
     if (this.filterConf.filters) {
       this.filterConf.filters.forEach((fieldConf: any) => {
         if (fieldConf['search']) {
-          searchParams.set(this.conf.filterFieldKey.replace('#field#', fieldConf['field']), fieldConf['search']);
+          httpParams = httpParams.set(this.conf.filterFieldKey.replace('#field#', fieldConf['field']), fieldConf['search']);
         }
       });
     }
 
-    return requestOptions;
+    return httpParams;
   }
 
-  protected addPagerRequestOptions(requestOptions: RequestOptionsArgs): RequestOptionsArgs {
+  protected addPagerRequestParams(httpParams: HttpParams): HttpParams {
     console.log("添加其它请求参数");
 
-    const searchParams: URLSearchParams = <URLSearchParams>requestOptions.params;
-
     if (this.pagingConf && this.pagingConf['page'] && this.pagingConf['perPage']) {
-      searchParams.set(this.conf.pagerPageKey, this.pagingConf['page']);
-      searchParams.set(this.conf.pagerLimitKey, this.pagingConf['perPage']);
+      httpParams = httpParams.set(this.conf.pagerPageKey, this.pagingConf['page']);
+      httpParams = httpParams.set(this.conf.pagerLimitKey, this.pagingConf['perPage']);
     }
 
-    return requestOptions;
+    return httpParams;
   }
+
 
 
 

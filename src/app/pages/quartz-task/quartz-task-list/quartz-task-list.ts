@@ -20,8 +20,8 @@ export class QuartzTaskListPage implements OnInit {
   i18n = 'quartztask'
 
 
-  @ViewChild('samrtTable', { read: ViewContainerRef }) container: ViewContainerRef;
-  @ViewChild('btnHead') template;
+  @ViewChild('samrtTable', {static:true, read: ViewContainerRef }) container: ViewContainerRef;
+  @ViewChild('btnHead',{static:true}) template;
   
   source: LocalDataSource = new LocalDataSource();
   /** 静态方法，获取默认配置 */

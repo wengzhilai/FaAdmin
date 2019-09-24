@@ -1,18 +1,9 @@
 import { of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Contacts, RecentUsers, UserData, User } from '../data/users';
-import { UserDto } from '../../Model/DtoRec/UserDto';
-import { GlobalHelper } from '../../Helper/GlobalHelper';
+import { Contacts, RecentUsers, UserData } from '../data/users';
 
 @Injectable()
 export class UserService extends UserData {
-  getCurrentUser(): Observable<UserDto> {
-    let user=new UserDto();
-    user=GlobalHelper.GetUserObject();
-    return observableOf(user);
-
-  }
-
 
   private time: Date = new Date;
 

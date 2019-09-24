@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
-import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { UserData } from '../../../@core/data/users';
-import { AnalyticsService } from '../../../@core/utils';
 import { LayoutService } from '../../../@core/utils';
+import { map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { Fun } from '../../../Config/Fun';
 
 @Component({
@@ -11,28 +12,73 @@ import { Fun } from '../../../Config/Fun';
   styleUrls: ['./header.component.scss'],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  @Input() position = 'normal';
-
+  private destroy$: Subject<void> = new Subject<void>();
+  userPictureOnly: boolean = false;
   user: any;
+
+  themes = [
+    {
+      value: 'default',
+      name: 'Light',
+    },
+    {
+      value: 'dark',
+      name: 'Dark',
+    },
+    {
+      value: 'cosmic',
+      name: 'Cosmic',
+    },
+    {
+      value: 'corporate',
+      name: 'Corporate',
+    },
+  ];
+
+  currentTheme = 'default';
 
   userMenu = [{ title: Fun.LanguageStr("Theme.Profile"),link:"user/Profile" }, { title: Fun.LanguageStr("Theme.LoginOut"),url:"#/auth/login" }];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
+              private themeService: NbThemeService,
               private userService: UserData,
-              private analyticsService: AnalyticsService,
-              private layoutService: LayoutService) {
+              private layoutService: LayoutService,
+              private breakpointService: NbMediaBreakpointsService) {
   }
 
   ngOnInit() {
-    this.userService.getCurrentUser()
-      .subscribe((user: any) => {
-        this.user = user
-        // console.log(this.user);
-      }
-      );
+    this.currentTheme = this.themeService.currentTheme;
+
+    this.userService.getUsers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((users: any) => this.user = users.nick);
+
+    const { xl } = this.breakpointService.getBreakpointsMap();
+    this.themeService.onMediaQueryChange()
+      .pipe(
+        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+
+    this.themeService.onThemeChange()
+      .pipe(
+        map(({ name }) => name),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(themeName => this.currentTheme = themeName);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  changeTheme(themeName: string) {
+    this.themeService.changeTheme(themeName);
   }
 
   toggleSidebar(): boolean {
@@ -42,11 +88,8 @@ export class HeaderComponent implements OnInit {
     return false;
   }
 
-  goToHome() {
+  navigateHome() {
     this.menuService.navigateHome();
-  }
-
-  startSearch() {
-    this.analyticsService.trackEvent('startSearch');
+    return false;
   }
 }
